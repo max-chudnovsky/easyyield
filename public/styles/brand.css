@@ -71,8 +71,8 @@
 
 /* Header translucent / solid behavior */
 .site-header { transition: background-color 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease; }
-.site-header.translucent { background-color: rgba(15,118,110,0.5); backdrop-filter: blur(6px); border-color: rgba(0,0,0,0.06); }
-.site-header.scrolled { background-color: rgba(15,118,110,1); backdrop-filter: none; border-color: rgba(0,0,0,0.08); }
+.site-header.translucent { background-color: rgba(0,0,0,0.5); backdrop-filter: blur(6px); border-color: rgba(0,0,0,0.06); }
+.site-header.scrolled { background-color: #000000; backdrop-filter: none; border-color: rgba(0,0,0,0.08); }
 
 /* Fredoka — friendly rounded display for the brand + headings (Easy Yield). */
 .site-header, .site-header *, .footer-brand,
