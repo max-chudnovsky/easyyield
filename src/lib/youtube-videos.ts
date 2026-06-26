@@ -18,6 +18,21 @@ function decodeEntities(s: string): string {
     .replace(/&apos;/g, "'");
 }
 
+// A real Short is served at /shorts/<id> (HTTP 200); a regular video there
+// redirects (3xx) to /watch. RSS has no duration, so this is how we tell them
+// apart without an API key.
+async function isShort(id: string): Promise<boolean> {
+  try {
+    const res = await fetch(`https://www.youtube.com/shorts/${id}`, {
+      method: 'HEAD',
+      redirect: 'manual',
+    });
+    return res.status === 200;
+  } catch {
+    return false; // on error, assume it's a regular video (don't hide it)
+  }
+}
+
 async function fetchRss(channelId: string): Promise<YtVideo[]> {
   try {
     const res = await fetch(
@@ -39,7 +54,9 @@ async function fetchRss(channelId: string): Promise<YtVideo[]> {
         thumb: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
       });
     }
-    return out;
+    // Drop Shorts — keep only full-length videos.
+    const flags = await Promise.all(out.map((v) => isShort(v.id)));
+    return out.filter((_, i) => !flags[i]);
   } catch {
     return [];
   }
