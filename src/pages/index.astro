@@ -1,26 +1,22 @@
 ---
 import Header from '../components/Header.astro'
-import Blog from '@cms/cms-blog/components/BlogSection.astro'
 import Footer from '../components/ui/Footer.astro'
 import { footerConfig } from '../data/footer'
-import { BlogService } from '@cms/cms-blog'
-
-const title = "Home"
+import { getChannelVideos } from '../lib/youtube-videos'
 
 const env = (Astro.locals as any)?.env;
+const CHANNEL_ID = 'UCJ6fa6JxMw3hA15TVvC2EWg';
+const YOUTUBE_URL = `https://www.youtube.com/channel/${CHANNEL_ID}`;
 
-// Get blog posts directly from DB — SSR self-fetch is unreliable in Workers
-let blogPosts = [];
-try {
-  if (env?.DB) {
-    const blogService = new BlogService(env.DB);
-    blogPosts = await blogService.listPosts(6, 0, undefined, { withContent: false });
-  }
-} catch (error) {
-  console.log('Blog posts not available during SSR:', error);
-}
+const videos = await getChannelVideos(env?.DB, CHANNEL_ID);
+const PER_PAGE = 6;
+const totalPages = Math.max(1, Math.ceil(videos.length / PER_PAGE));
+const reqPage = parseInt(new URL(Astro.request.url).searchParams.get('page') || '1', 10) || 1;
+const cur = Math.min(Math.max(1, reqPage), totalPages);
+const pageVideos = videos.slice((cur - 1) * PER_PAGE, cur * PER_PAGE);
 
-const YOUTUBE_URL = 'https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg';
+// Browser/edge cache the (public) video list; D1 holds the source-of-truth cache.
+Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-revalidate=3600');
 ---
 
 <head>
@@ -28,12 +24,10 @@ const YOUTUBE_URL = 'https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
   <title>Easy Yield — Canadian Personal Finance, Made Easy &amp; Fun</title>
-  <meta name="description" content="Easy Yield is a comics &amp; vlog series that makes Canadian personal finance easy and fun. Follow Mike as he tackles TFSAs, RRSPs, FHSAs, saving, investing, budgeting and more — one comic at a time." />
+  <meta name="description" content="Easy Yield is a comics &amp; vlog series that makes Canadian personal finance easy and fun. Follow Mike as he tackles TFSAs, RRSPs, FHSAs, saving, investing, budgeting and more — one video at a time." />
   <link rel="canonical" href="https://easyyield.ca/" />
-  <!-- Preload and static Tailwind CSS (built at build-time) -->
   <link rel="preload" href="/tailwind.css?v=20260627b" as="style">
   <link rel="stylesheet" href="/tailwind.css?v=20260627b">
-  <!-- Minimal critical CSS to avoid FOUC until tailwind.css loads -->
   <style>
     html,body{font-family:'Inter',system-ui,-apple-system}
   </style>
@@ -43,53 +37,55 @@ const YOUTUBE_URL = 'https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg';
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles/brand.css?v=20260626g">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .glass-effect { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 1); }
-  </style>
   <script is:inline src="/js/analytics.js" defer></script>
 </head>
 
 <div>
   <Header />
 
-  <main id="main" class="pt-18">
-    <!-- Hero -->
-    <section class="gradient-bg text-white">
-      <div class="container mx-auto px-6 pt-32 pb-20">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-          <div class="space-y-6">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-white/15 text-sm font-semibold tracking-wide uppercase">Canadian Personal Finance · Comics &amp; Vlog</span>
-            <h1 class="text-4xl md:text-5xl font-bold leading-tight">Money in Canada, made <span class="text-[var(--brand-300,#86efac)]">easy</span> and actually fun.</h1>
-            <p class="text-lg text-white/90 leading-relaxed max-w-xl">
-              Easy Yield turns the confusing world of Canadian personal finance into bite-sized comics and vlogs. Meet <strong>Mike</strong> — our everyday Canadian who figures out TFSAs, RRSPs, FHSAs, saving, investing, budgeting and taxes so you don't have to do it alone.
-            </p>
-            <div class="flex flex-wrap gap-4 pt-2">
-              <a href="/blog" class="btn-cta">Read the blog</a>
-              <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-[var(--brand-700)] font-semibold hover:bg-white/90 transition-colors">
-                <i class="fab fa-youtube text-xl"></i> Watch on YouTube
-              </a>
-            </div>
-          </div>
-          <div class="flex justify-center lg:justify-end">
-            <img src="/images/easyyield-mike.png" alt="Mike, the Easy Yield comic character, your friendly guide to Canadian personal finance" class="w-full max-w-sm object-contain drop-shadow-2xl" />
-          </div>
-        </div>
-      </div>
-    </section>
+  <main id="main" class="pt-28 pb-20 min-h-[60vh]">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <h1 class="text-3xl md:text-4xl font-bold mb-2 text-center">Easy Yield Videos</h1>
+      <p class="text-center text-gray-500 mb-10">Canadian personal finance, made easy &amp; fun — with Mike.</p>
 
-    <Blog
-      posts={blogPosts}
-      showTitle={false}
-      showSearch={true}
-      showCategoryFilter={true}
-      showTagFilter={true}
-      maxPosts={6}
-      layout="grid"
-      className="front-page"
-      showExcerpt={true}
-      showCategories={true}
-    />
+      {videos.length === 0 ? (
+        <p class="text-center text-gray-500 py-16">
+          New videos coming soon — <a class="underline font-medium" href={YOUTUBE_URL} target="_blank" rel="noopener">subscribe on YouTube</a>.
+        </p>
+      ) : (
+        <Fragment>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {pageVideos.map((v) => (
+              <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener"
+                 class="group block rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div class="relative aspect-video bg-black">
+                  <img src={v.thumb} alt={v.title} loading="lazy" class="w-full h-full object-cover" />
+                  <span class="absolute inset-0 flex items-center justify-center">
+                    <span class="w-16 h-16 rounded-full bg-black/55 group-hover:bg-red-600 transition-colors flex items-center justify-center">
+                      <i class="fas fa-play text-white text-2xl ml-1"></i>
+                    </span>
+                  </span>
+                </div>
+                <div class="p-5">
+                  <h2 class="text-lg md:text-xl font-semibold leading-snug">{v.title}</h2>
+                  <p class="text-sm text-gray-500 mt-2">{v.published ? new Date(v.published).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <nav class="flex flex-wrap justify-center items-center gap-2 mt-12" aria-label="Video pages">
+              {cur > 1 && <a href={`/?page=${cur - 1}`} class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 font-medium">Prev</a>}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                <a href={`/?page=${n}`} class={`px-4 py-2 rounded-lg font-medium ${n === cur ? 'bg-black text-white' : 'border border-gray-300 hover:bg-gray-100'}`}>{n}</a>
+              ))}
+              {cur < totalPages && <a href={`/?page=${cur + 1}`} class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 font-medium">Next</a>}
+            </nav>
+          )}
+        </Fragment>
+      )}
+    </div>
   </main>
 
   <Footer
@@ -98,4 +94,4 @@ const YOUTUBE_URL = 'https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg';
     showQuickLinks={footerConfig.showQuickLinks}
     showNewsletter={footerConfig.showNewsletter}
   />
-  </div>
+</div>
