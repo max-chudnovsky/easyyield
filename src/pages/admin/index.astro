@@ -1,0 +1,206 @@
+---
+import Header from '../../components/Header.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Easy Yield</title>
+  <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
+  <link rel="stylesheet" href="/tailwind.css?v=20260625c">
+  <link rel="stylesheet" href="/styles/brand.css?v=20260626g">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-neutral-50">
+  <Header />
+
+  <main class="min-h-screen pt-24 pb-12">
+    <div class="container mx-auto px-6">
+      <div class="max-w-[1400px] mx-auto">
+
+        <!-- Welcome Section -->
+        <div class="gradient-bg text-white rounded-xl shadow-lg mb-8 p-8">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-3xl font-bold mb-2">Admin Dashboard</h1>
+              <p class="text-white/80">Welcome to the Easy Yield administration panel</p>
+            </div>
+            <div class="hidden md:block">
+              <i class="fa-solid fa-cogs text-6xl text-white/30"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-neutral-200">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                <i class="fa-solid fa-users text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <div class="text-2xl font-bold text-neutral-900" id="users-count">-</div>
+                <div class="text-sm text-neutral-500">Total Users</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-neutral-200">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-pink-100 text-pink-600">
+                <i class="fa-solid fa-envelope text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <div class="text-2xl font-bold text-neutral-900" id="subscribers-count">-</div>
+                <div class="text-sm text-neutral-500">Subscribers</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-neutral-200">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                <i class="fa-solid fa-blog text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <div class="text-2xl font-bold text-neutral-900" id="blog-posts-count">-</div>
+                <div class="text-sm text-neutral-500">Blog Posts</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Management Sections -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- User Management -->
+          <div class="bg-white rounded-xl shadow-sm border border-neutral-200 hover:shadow-md transition-shadow">
+            <div class="p-6">
+              <div class="flex items-center mb-4">
+                <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                  <i class="fa-solid fa-users text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-neutral-900">User Management</h3>
+                  <p class="text-sm text-neutral-500">Manage user accounts and permissions</p>
+                </div>
+              </div>
+              <div class="space-y-2 mb-4">
+                <div class="text-sm text-neutral-600">• View all registered users</div>
+                <div class="text-sm text-neutral-600">• Edit user profiles and roles</div>
+                <div class="text-sm text-neutral-600">• Track user activity</div>
+              </div>
+              <a href="/admin/users" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                <i class="fa-solid fa-arrow-right mr-2"></i>
+                Manage Users
+              </a>
+            </div>
+          </div>
+
+          <!-- Blog Management -->
+          <div class="bg-white rounded-xl shadow-sm border border-neutral-200 hover:shadow-md transition-shadow">
+            <div class="p-6">
+              <div class="flex items-center mb-4">
+                <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                  <i class="fa-solid fa-blog text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-neutral-900">Blog Management</h3>
+                  <p class="text-sm text-neutral-500">Create and manage blog content</p>
+                </div>
+              </div>
+              <div class="space-y-2 mb-4">
+                <div class="text-sm text-neutral-600">• Write and edit blog posts</div>
+                <div class="text-sm text-neutral-600">• Manage featured images</div>
+                <div class="text-sm text-neutral-600">• Schedule publications</div>
+              </div>
+              <a href="/admin/blog" class="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors">
+                <i class="fa-solid fa-arrow-right mr-2"></i>
+                Manage Blog
+              </a>
+            </div>
+          </div>
+
+          <!-- Newsletter Subscribers -->
+          <div class="bg-white rounded-xl shadow-sm border border-neutral-200 hover:shadow-md transition-shadow">
+            <div class="p-6">
+              <div class="flex items-center mb-4">
+                <div class="p-3 rounded-full bg-pink-100 text-pink-600">
+                  <i class="fa-solid fa-envelope text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-neutral-900">Newsletter Subscribers</h3>
+                  <p class="text-sm text-neutral-500">Manage your email subscribers</p>
+                </div>
+              </div>
+              <div class="space-y-2 mb-4">
+                <div class="text-sm text-neutral-600">• View subscriber statistics</div>
+                <div class="text-sm text-neutral-600">• Export subscriber lists</div>
+                <div class="text-sm text-neutral-600">• Manage subscriptions</div>
+              </div>
+              <a href="/admin/subscribers" class="inline-flex items-center px-4 py-2 bg-pink-600 text-white text-sm font-medium rounded-lg hover:bg-pink-700 transition-colors">
+                <i class="fa-solid fa-arrow-right mr-2"></i>
+                Manage Subscribers
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Load dashboard statistics
+    document.addEventListener('DOMContentLoaded', async () => {
+      await Promise.all([
+        loadUserStats(),
+        loadSubscriberStats(),
+        loadBlogStats()
+      ]);
+    });
+
+    async function loadUserStats() {
+      try {
+        const response = await fetch('/api/admin/users');
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('users-count').textContent = data.users?.length || 0;
+        }
+      } catch (error) {
+        console.error('Failed to load user stats:', error);
+        document.getElementById('users-count').textContent = '?';
+      }
+    }
+
+    async function loadSubscriberStats() {
+      try {
+        const response = await fetch('/api/admin/subscribers');
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('subscribers-count').textContent = data.stats?.total || 0;
+        }
+      } catch (error) {
+        console.error('Failed to load subscriber stats:', error);
+        document.getElementById('subscribers-count').textContent = '?';
+      }
+    }
+
+    async function loadBlogStats() {
+      try {
+        const response = await fetch('/api/admin/blog');
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('blog-posts-count').textContent = data.posts?.length || 0;
+        }
+      } catch (error) {
+        console.error('Failed to load blog stats:', error);
+        document.getElementById('blog-posts-count').textContent = '?';
+      }
+    }
+  </script>
+</body>
+</html>

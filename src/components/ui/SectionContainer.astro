@@ -1,0 +1,33 @@
+---
+// src/components/ui/SectionContainer.astro - Reusable section container for homepage blocks
+export interface Props {
+  title?: string;
+  description?: string;
+  showTitle?: boolean;
+  className?: string;
+  containerClass?: string;
+}
+
+const {
+  title,
+  description,
+  showTitle = true,
+  className = '',
+  containerClass = ''
+} = Astro.props;
+---
+
+<section class={`py-12 ${className}`}>
+  <div class={`container mx-auto px-6 ${containerClass}`}>
+    {showTitle && title && (
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">{title}</h2>
+        {description && (
+          <p class="text-neutral-600 max-w-2xl mx-auto">{description}</p>
+        )}
+      </div>
+    )}
+
+    <slot />
+  </div>
+</section>

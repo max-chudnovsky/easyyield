@@ -1,0 +1,79 @@
+name = "easyyield"
+account_id = "17f9b88b2cecee992ad06fabcab623c3"
+workers_dev = true
+main = "@astrojs/cloudflare/entrypoints/server"
+compatibility_date = "2025-09-10"
+compatibility_flags = ["nodejs_compat"]
+
+assets = { directory = "./dist", binding = "ASSETS" }
+
+# Custom domains easyyield.ca + www.easyyield.ca are attached to this worker via
+# the Cloudflare API (workers/domains) — they manage their own proxied DNS records
+# and edge certs on the easyyield.ca zone. Not declared as [[routes]] here to avoid
+# wrangler re-provisioning conflicts.
+
+observability = { enabled = true }
+upload_source_maps = true
+
+# NOTE: binding database_id, kv id, and account_id below are still erikred's
+# resource IDs — the lead will swap them for the new easyyield resources.
+[[d1_databases]]
+binding = "DB"
+database_name = "easyyield-db"
+database_id = "8d61cd96-67cf-4a2b-8028-73205f6f37bf"
+
+# KV bound as CACHE — the canonical name resolved by every shared module
+# (env?.CACHE || env?.KV) and by all of the site's own code (env.CACHE).
+[[kv_namespaces]]
+binding = "CACHE"
+id = "4dd1b1adf8de4a75b9ea8b8460bbc847"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "easyyield"
+
+[ai]
+binding = "AI"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "site_pageviews"
+
+[vars]
+ENVIRONMENT = "production"
+CONTACT_EMAIL = "info@easyyield.ca"
+# cms-blog admin config — Easy Yield ships English only for now.
+CMS_BLOG_LANGS = "en"
+# cms-blog public-page config (read at request time by the injected /blog pages).
+CMS_BLOG_SITE_NAME = "Easy Yield"
+CMS_BLOG_SITE_URL = "https://easyyield.ca"
+CMS_BLOG_DESCRIPTION = "Easy Yield — Canadian personal finance made easy and fun. A comics and vlog series where Mike breaks down TFSAs, RRSPs, FHSAs, saving, investing, budgeting and Canadian taxes."
+CMS_BLOG_FAVICON = "/images/easyyield-logo.png"
+CMS_BLOG_TAILWIND_HREF = "/tailwind.css?v=20260625c"
+CMS_BLOG_BRAND_CSS_HREF = "/styles/brand.css?v=20260626g"
+CMS_BLOG_ANALYTICS_SRC = "/js/analytics.js"
+# @cms/cms-analytics runtime config. SITE keys the shared Analytics Engine
+# dataset (site_pageviews). SETTINGS_TABLE holds GSC creds + seo api key.
+CMS_ANALYTICS_SITE = "easyyield"
+CMS_ANALYTICS_SETTINGS_TABLE = "platform_settings"
+CMS_ANALYTICS_COOKIE = "easyyield_analytics"
+# cms-blog AI keyword-target seeds — Easy Yield's niche: Canadian personal
+# finance, explained in an approachable, friendly comic/vlog voice (Mike).
+CMS_BLOG_AI_DEFAULT_ACTIONS = "opening a TFSA in Canada\nmaximizing RRSP contributions\nusing the FHSA to buy a first home\nstarting an RESP for your kids\nfinding the best high-interest savings account\nladdering GICs for safe returns\nstarting to invest with index funds\nbuilding a dividend portfolio\nmaking a simple monthly budget\nbuilding an emergency fund\nimproving your credit score in Canada\npaying down debt faster\nunderstanding Canadian income taxes\nclaiming common tax deductions and credits\ngetting a mortgage as a first-time buyer\nunderstanding fixed vs variable mortgage rates\nsaving for retirement in Canada\ncomparing TFSA vs RRSP\navoiding common money mistakes\nautomating your savings"
+CMS_BLOG_AI_DEFAULT_TYPES = "explainer\nhow-to guide\nbeginner's guide\ncomparison\nmyth-busting post\nstep-by-step walkthrough\ncase study\nchecklist\nFAQ\ntips roundup\nstory-driven comic recap"
+CMS_BLOG_AI_DEFAULT_ANGLES = "for beginners\nfor Canadians\nfor first-time home buyers\nfor new grads\nfor families\nTFSA vs RRSP\nfor low incomes\nstep by step\nwith real examples\nin plain English\ncommon mistakes to avoid\nfor the self-employed\nfor newcomers to Canada\nthe simple version\nwhat the numbers actually mean"
+CMS_BLOG_AI_TAG_PROMPT = "You are an SEO expert for a Canadian personal-finance website that explains money topics (TFSA, RRSP, FHSA, RESP, high-interest savings, GICs, index and dividend investing, budgeting, credit, Canadian taxes, mortgages, first-time home buyers) through friendly comics and vlogs. Reply with ONLY a comma-separated list of 6-10 short search-friendly keywords. No explanation, no numbering, no extra text."
+CMS_BLOG_TAG_STOP_WORDS = "easy,yield,mike,finance,canada"
+# cms-ui AdminShell: public site nav rendered in the admin header + footer.
+CMS_SITE_NAV = '[{"label":"Home","href":"/"},{"label":"Blog","href":"/blog"},{"label":"About","href":"/about"},{"label":"Contact","href":"/contact"}]'
+CMS_ADMIN_HEADER_OFFSET = "96px"
+CMS_ADMIN_SIDE_BG = "var(--brand-700)"
+CMS_ADMIN_SIDE_TEXT = "#ffffff"
+# cms-users runtime config (read at request time by injected auth routes).
+CMS_USERS_SESSION_COOKIE = "easyyield_session"
+CMS_USERS_SITE_NAME = "Easy Yield"
+CMS_USERS_SITE_URL = "https://easyyield.ca"
+CMS_USERS_EMAIL_FROM = "Easy Yield <noreply@easyyield.ca>"
+CMS_USERS_LOGIN_PATH = "/login"
+CMS_USERS_ACCOUNT_PATH = "/account"
+CMS_USERS_RESET_PATH = "/reset-password"

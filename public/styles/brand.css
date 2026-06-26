@@ -1,0 +1,79 @@
+/* Centralized brand tokens and small utilities — Easy Yield (Canadian finance: confident green/teal + warm accent) */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+:root{
+  --brand-700: #115e59;  /* deep teal */
+  --brand-600: #0f766e;  /* teal (primary) */
+  --brand-500: #10b981;  /* confident green (money/yield) */
+  --brand-400: #34d399;  /* light green */
+  --brand-300: #86efac;  /* mint highlight */
+  --brand-50:  #ecfdf5;  /* pale mint */
+
+  /* warm accent (for CTAs / highlights) */
+  --accent-500: #f59e0b; /* amber */
+  --accent-600: #d97706;
+
+  /* cms-users tokens — themed for Easy Yield (green/teal accent).
+     Used by the shared LoginPopup CTAs and the login/register/forgot/reset/
+     account pages injected by cms-users. */
+  --cms-user-accent:    linear-gradient(to right, #10b981, #0f766e);
+  --cms-user-bg:        #115e59;
+  --cms-user-card-bg:   #ffffff;
+  --cms-user-border:    #cfe9e3;
+  --cms-user-radius:    1rem;
+  --cms-user-text:      #14302c;
+  --cms-user-text-muted:#5b736e;
+  --cms-user-danger:    #dc2626;
+  --cms-user-success:   #059669;
+
+  /* cms-blog presentation tokens — themed for Easy Yield (green/teal accent) */
+  --cms-blog-accent:        #0f766e;
+  --cms-blog-accent-fg:     #fff;
+  --cms-blog-text:          #2b3b38;
+  --cms-blog-heading:       #115e59;
+  --cms-blog-meta:          #5b736e;
+  --cms-blog-link:          #0f766e;
+  --cms-blog-link-hover:    #115e59;
+  --cms-blog-card-bg:       #fff;
+  --cms-blog-card-radius:   12px;
+  --cms-blog-card-shadow:   0 8px 24px rgba(15,118,110,.16);
+  --cms-blog-card-height:   320px;
+  --cms-blog-card-fallback: linear-gradient(135deg,#115e59 0%,#0f766e 60%,#10b981 100%);
+  --cms-blog-grid-cols:     3;
+  --cms-blog-grid-gap:      0.75rem;
+  --cms-blog-tag-bg:        #d1fae5;
+  --cms-blog-tag-color:     #115e59;
+  --cms-blog-tag-bg-hover:  #a7f3d0;
+  --cms-blog-quote-border:  #10b981;
+  --cms-blog-quote-bg:      #ecfdf5;
+  --cms-blog-quote-color:   #115e59;
+}
+
+.brand-gradient { background: linear-gradient(90deg, var(--brand-600), var(--brand-500)); }
+.gradient-bg { background: linear-gradient(135deg, var(--brand-700) 0%, var(--brand-600) 55%, var(--brand-500) 100%); }
+.hero-overlay { background: transparent; }
+.highlighted-section { outline: 2px solid var(--brand-600); background-color: rgba(16,185,129,0.08); }
+
+/* Primary call-to-action button */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.625rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, var(--brand-600), var(--brand-500));
+  box-shadow: 0 6px 18px rgba(15,118,110,.28);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.btn-cta:hover { filter: brightness(1.05); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,118,110,.32); }
+
+/* Header translucent / solid behavior */
+.site-header { transition: background-color 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease; }
+.site-header.translucent { background-color: rgba(15,118,110,0.5); backdrop-filter: blur(6px); border-color: rgba(0,0,0,0.06); }
+.site-header.scrolled { background-color: rgba(15,118,110,1); backdrop-filter: none; border-color: rgba(0,0,0,0.08); }
+
+/* Fredoka — friendly rounded display for the brand + headings (Easy Yield). */
+.site-header, .site-header *, .footer-brand,
+h1, h2, h3, h4, h5, h6 { font-family: 'Fredoka', 'Inter', system-ui, -apple-system, sans-serif; }

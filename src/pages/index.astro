@@ -1,0 +1,101 @@
+---
+import Header from '../components/Header.astro'
+import Blog from '@cms/cms-blog/components/BlogSection.astro'
+import Footer from '../components/ui/Footer.astro'
+import { footerConfig } from '../data/footer'
+import { BlogService } from '@cms/cms-blog'
+
+const title = "Home"
+
+const env = (Astro.locals as any)?.env;
+
+// Get blog posts directly from DB — SSR self-fetch is unreliable in Workers
+let blogPosts = [];
+try {
+  if (env?.DB) {
+    const blogService = new BlogService(env.DB);
+    blogPosts = await blogService.listPosts(6, 0, undefined, { withContent: false });
+  }
+} catch (error) {
+  console.log('Blog posts not available during SSR:', error);
+}
+
+const YOUTUBE_URL = 'https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg';
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
+  <title>Easy Yield — Canadian Personal Finance, Made Easy &amp; Fun</title>
+  <meta name="description" content="Easy Yield is a comics &amp; vlog series that makes Canadian personal finance easy and fun. Follow Mike as he tackles TFSAs, RRSPs, FHSAs, saving, investing, budgeting and more — one comic at a time." />
+  <link rel="canonical" href="https://easyyield.ca/" />
+  <!-- Preload and static Tailwind CSS (built at build-time) -->
+  <link rel="preload" href="/tailwind.css?v=20260625c" as="style">
+  <link rel="stylesheet" href="/tailwind.css?v=20260625c">
+  <!-- Minimal critical CSS to avoid FOUC until tailwind.css loads -->
+  <style>
+    html,body{font-family:'Inter',system-ui,-apple-system}
+  </style>
+  <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/brand.css?v=20260626g">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .glass-effect { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 1); }
+  </style>
+  <script is:inline src="/js/analytics.js" defer></script>
+</head>
+
+<div>
+  <Header />
+
+  <main id="main" class="pt-18">
+    <!-- Hero -->
+    <section class="gradient-bg text-white">
+      <div class="container mx-auto px-6 pt-32 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+          <div class="space-y-6">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-white/15 text-sm font-semibold tracking-wide uppercase">Canadian Personal Finance · Comics &amp; Vlog</span>
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">Money in Canada, made <span class="text-[var(--brand-300,#86efac)]">easy</span> and actually fun.</h1>
+            <p class="text-lg text-white/90 leading-relaxed max-w-xl">
+              Easy Yield turns the confusing world of Canadian personal finance into bite-sized comics and vlogs. Meet <strong>Mike</strong> — our everyday Canadian who figures out TFSAs, RRSPs, FHSAs, saving, investing, budgeting and taxes so you don't have to do it alone.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-2">
+              <a href="/blog" class="btn-cta">Read the blog</a>
+              <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-[var(--brand-700)] font-semibold hover:bg-white/90 transition-colors">
+                <i class="fab fa-youtube text-xl"></i> Watch on YouTube
+              </a>
+            </div>
+          </div>
+          <div class="flex justify-center lg:justify-end">
+            <img src="/images/easyyield-mike.png" alt="Mike, the Easy Yield comic character, your friendly guide to Canadian personal finance" class="w-full max-w-sm object-contain drop-shadow-2xl" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Blog
+      posts={blogPosts}
+      showTitle={false}
+      showSearch={true}
+      showCategoryFilter={true}
+      showTagFilter={true}
+      maxPosts={6}
+      layout="grid"
+      className="front-page"
+      showExcerpt={true}
+      showCategories={true}
+    />
+  </main>
+
+  <Footer
+    companyName={footerConfig.companyName}
+    showSocialLinks={footerConfig.showSocialLinks}
+    showQuickLinks={footerConfig.showQuickLinks}
+    showNewsletter={footerConfig.showNewsletter}
+  />
+  </div>

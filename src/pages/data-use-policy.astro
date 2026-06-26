@@ -1,0 +1,140 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/ui/Footer.astro'
+import { footerConfig } from '../data/footer'
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
+  <link rel="preload" href="/tailwind.css?v=20260625c" as="style">
+  <link rel="stylesheet" href="/tailwind.css?v=20260625c">
+  <style>html,body{font-family:Inter,system-ui,-apple-system}</style>
+  <script>window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+  <title>Data Use Policy - Easy Yield</title>
+  <meta name="description" content="Easy Yield Data Use Policy — how we collect, store, and use your data as a subscriber." />
+  <link rel="canonical" href="https://easyyield.ca/data-use-policy" />
+</head>
+<body>
+  <Header />
+
+  <main class="pt-24 pb-16">
+    <div class="container mx-auto px-6">
+
+      <div class="max-w-3xl mx-auto">
+
+        <!-- Header -->
+        <div class="mb-12">
+          <p class="text-sm text-amber-600 font-medium mb-2">Legal</p>
+          <h1 class="text-4xl font-bold text-neutral-900 mb-4">Data Use Policy</h1>
+          <p class="text-neutral-500 text-sm">Last updated: June 2026</p>
+        </div>
+
+        <div class="prose max-w-none space-y-8">
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">1. Purpose</h2>
+            <p class="text-neutral-600 leading-relaxed">
+              This Data Use Policy explains specifically how Easy Yield (easyyield.ca) collects, stores, and uses the data you provide when subscribing to our email list, creating an account, or interacting with our communications. This policy supplements our <a href="/privacy" class="text-amber-600 hover:text-amber-700">Privacy Policy</a>, which covers our broader data practices.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">2. What Data We Collect From Subscribers</h2>
+            <p class="text-neutral-600 leading-relaxed mb-3">When you subscribe to Easy Yield updates, we collect:</p>
+            <ul class="list-disc pl-6 space-y-2 text-neutral-600">
+              <li>Your <strong>email address</strong> (required)</li>
+              <li>Your <strong>first and last name</strong> (optional) — used only to personalize email greetings</li>
+              <li>The <strong>date and source</strong> of your subscription (e.g., newsletter signup form, footer signup)</li>
+              <li>Your <strong>country</strong>, detected automatically at subscription time, for regional relevance</li>
+            </ul>
+            <p class="text-neutral-600 leading-relaxed mt-3">
+              We do not collect payment information, browsing history, or behavioral data through our email list.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">3. Email Verification Requirement</h2>
+            <p class="text-neutral-600 leading-relaxed mb-3">
+              We require you to verify your email address before we send any marketing communications. This protects both you and us — it prevents your address from being subscribed without your consent.
+            </p>
+            <p class="text-neutral-600 leading-relaxed mb-3">
+              After subscribing, you'll receive a single verification email. If you do not verify your address, we will send one reminder. <strong>If your address remains unverified after 7 days from that reminder, it is automatically and permanently deleted from our system.</strong>
+            </p>
+            <p class="text-neutral-600 leading-relaxed">
+              We believe unverified data has no place in our database, and we clean it up proactively.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">4. How We Use Your Data</h2>
+            <p class="text-neutral-600 leading-relaxed mb-3">Once verified, your subscriber data is used exclusively to:</p>
+            <ul class="list-disc pl-6 space-y-2 text-neutral-600">
+              <li>Send you Easy Yield newsletters, new comics, and personal-finance updates you opted in to receive</li>
+              <li>Personalize email content (e.g., addressing you by first name)</li>
+              <li>Notify you about new comics, videos, and subscriber-exclusive content</li>
+            </ul>
+            <p class="text-neutral-600 leading-relaxed mt-3">
+              We do not use your subscriber data to build advertising profiles, sell to third parties, or share with data brokers. Ever.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">5. Data Storage & Security</h2>
+            <p class="text-neutral-600 leading-relaxed">
+              Subscriber data is stored in a secure, encrypted database hosted on Cloudflare's global infrastructure. Access is strictly limited to authorized Easy Yield administrators. All data is transmitted over HTTPS/TLS.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">6. Unsubscribing & Data Deletion</h2>
+            <p class="text-neutral-600 leading-relaxed mb-3">
+              Every marketing email we send includes an <strong>Unsubscribe</strong> link at the bottom. Clicking it immediately deactivates your subscription — you will not receive further emails from us.
+            </p>
+            <p class="text-neutral-600 leading-relaxed mb-3">
+              To have your data permanently deleted from our system, email us at <a href="mailto:info@easyyield.ca" class="text-amber-600 hover:text-amber-700">info@easyyield.ca</a> with the subject "Data Deletion Request." We will complete the deletion within 7 business days and confirm when done.
+            </p>
+            <p class="text-neutral-600 leading-relaxed">
+              You can also use your account settings to request data deletion if you have an account.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">7. Third-Party Email Delivery</h2>
+            <p class="text-neutral-600 leading-relaxed">
+              We use <strong>Resend</strong> (<a href="https://resend.com/privacy" target="_blank" rel="noopener" class="text-amber-600 hover:text-amber-700">resend.com/privacy</a>) as our email delivery service. When we send you an email, your email address and the email content are transmitted to Resend for delivery. Resend is bound by their own privacy policy and does not use your data for their own marketing purposes.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3">8. Contact</h2>
+            <p class="text-neutral-600 leading-relaxed">
+              For any questions about how your data is used, contact us at <a href="mailto:info@easyyield.ca" class="text-amber-600 hover:text-amber-700">info@easyyield.ca</a>. We respond to all data-related inquiries within 2 business days.
+            </p>
+          </section>
+
+        </div>
+
+        <!-- Related policies -->
+        <div class="mt-12 pt-8 border-t border-neutral-200 flex flex-wrap gap-4">
+          <a href="/privacy" class="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-lg text-sm text-neutral-700 transition-colors">
+            <i class="fa-solid fa-shield-halved text-amber-500"></i>Privacy Policy
+          </a>
+          <a href="/contact" class="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-lg text-sm text-neutral-700 transition-colors">
+            <i class="fa-solid fa-envelope text-amber-500"></i>Contact
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer {...footerConfig} />
+</body>
+</html>

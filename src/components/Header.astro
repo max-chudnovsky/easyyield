@@ -1,0 +1,675 @@
+---
+import LoginPopup from '@cms/cms-users/components/LoginPopup.astro';
+---
+<header id="header" class="site-header fixed top-0 left-0 right-0 z-50 glass-effect border-b border-neutral-200/50 transition-all duration-500" role="banner">
+  <div class="container mx-auto px-6">
+    <div class="header-container flex items-center justify-between transition-all duration-500">
+      <div class="flex items-center space-x-10">
+          <div class="flex items-center space-x-3">
+          <img src="/images/easyyield-logo.png" alt="Easy Yield logo" class="w-12 h-12 object-contain">
+          <a id="site-title" href="/" class="text-[2.4rem] leading-none font-bold text-white uppercase">EASY YIELD</a>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-7">
+        <a href="/" class="text-white transition-all duration-300 cursor-pointer font-bold relative group uppercase flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-house text-xl"></i>
+          <span class="hidden xl:inline">HOME</span>
+          <span class="xl:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Home</span>
+          <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full group-hover:left-0 rounded-full"></span>
+        </a>
+        <a href="/blog" class="text-white transition-all duration-300 cursor-pointer font-bold relative group uppercase flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-newspaper text-xl"></i>
+          <span class="hidden xl:inline">BLOG</span>
+          <span class="xl:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Blog</span>
+          <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full group-hover:left-0 rounded-full"></span>
+        </a>
+        <a href="/about" class="text-white transition-all duration-300 cursor-pointer font-bold relative group uppercase flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-circle-info text-xl"></i>
+          <span class="hidden xl:inline">ABOUT</span>
+          <span class="xl:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">About</span>
+          <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full group-hover:left-0 rounded-full"></span>
+        </a>
+        <a href="/contact" class="text-white transition-all duration-300 cursor-pointer font-bold relative group uppercase flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-phone text-xl"></i>
+          <span class="hidden xl:inline">CONTACT</span>
+          <span class="xl:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Contact</span>
+          <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full group-hover:left-0 rounded-full"></span>
+        </a>
+        </nav>
+      </div>
+
+      <!-- Social Media Icons -->
+      <div class="hidden md:flex items-center space-x-3">
+        <a href="https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg" target="_blank" rel="noopener noreferrer" class="text-white hover:text-[var(--brand-400,#86efac)] transition-colors duration-300" aria-label="YouTube">
+          <i class="fab fa-youtube text-lg"></i>
+        </a>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- Search Container -->
+        <div class="relative">
+          <div id="search-container" class="flex items-center transition-all duration-300">
+            <input
+              id="search-input"
+              type="text"
+              placeholder="Search posts..."
+              class="absolute right-0 w-0 opacity-0 bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-300"
+              style="transition: width 0.3s ease, opacity 0.3s ease;"
+            >
+            <button id="search-btn" class="p-3 text-white hover:text-[var(--brand-400,#86efac)] hover:bg-black/20 rounded-xl transition-all duration-300 relative z-10">
+              <i class="fa-solid fa-search text-lg"></i>
+            </button>
+          </div>
+
+          <!-- Search Results Dropdown -->
+          <div id="search-results" class="absolute right-0 top-full mt-2 w-96 bg-white rounded-xl shadow-2xl border border-neutral-100 opacity-0 invisible transition-all duration-300 transform translate-y-2 z-50 max-h-96 overflow-y-auto">
+            <div id="search-loading" class="hidden p-4 text-center">
+              <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--brand-600,#0f766e)] mx-auto"></div>
+              <p class="text-neutral-600 text-sm mt-2">Searching...</p>
+            </div>
+            <div id="search-content" class="hidden">
+              <!-- Results will be populated here -->
+            </div>
+            <div id="search-empty" class="hidden p-4 text-center">
+              <p class="text-neutral-600 text-sm">No results found</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="auth-loading" class="hidden flex items-center space-x-2">
+          <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+        </div>
+
+        <!-- Not Authenticated State -->
+        <div id="auth-not-logged-in" class="hidden">
+          <button id="signin-btn" class="p-3 text-white hover:text-[var(--brand-400,#86efac)] hover:bg-black/20 rounded-xl transition-all duration-300 relative" title="Sign In">
+            <i class="fa-solid fa-user text-lg"></i>
+          </button>
+
+          <!-- Multi-step auth popup (shared cms-users component) -->
+          <LoginPopup />
+        </div>
+
+        <!-- Authenticated User Menu -->
+        <div id="auth-logged-in" class="hidden">
+          <!-- Account Dropdown -->
+          <div class="relative group">
+            <button class="p-3 text-white hover:text-[var(--brand-400,#86efac)] hover:bg-black/20 rounded-xl transition-all duration-300 relative" title="Account">
+              <i class="fa-solid fa-user-circle text-lg"></i>
+              <i class="fa-solid fa-chevron-down text-xs absolute -bottom-1 -right-1 text-[var(--brand-400,#86efac)]"></i>
+            </button>
+
+            <div class="absolute right-0 top-full mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-neutral-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              <div class="p-5 border-b border-neutral-100">
+                <div class="flex items-center space-x-4">
+                  <div id="user-avatar-large" class="w-12 h-12 rounded-full ring-2 ring-[var(--brand-50,#d1fae5)] shadow-md bg-gradient-to-r from-[var(--brand-500,#10b981)] to-[var(--brand-600,#0f766e)] flex items-center justify-center text-white font-bold text-lg">
+                    U
+                  </div>
+                  <div>
+                    <p id="user-name" class="text-sm font-semibold text-neutral-900">Loading...</p>
+                    <p id="user-email" class="text-xs text-neutral-600">Loading...</p>
+                    <span class="inline-block px-2 py-1 bg-gradient-to-r from-[var(--brand-500,#10b981)] to-[var(--brand-600,#0f766e)] text-white text-xs rounded-full mt-1 font-medium" id="user-role-label">Member</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="py-3">
+                <!-- Admin Links: Only show if user is admin -->
+                <div id="admin-links" style="display:none;">
+                  <a href="/admin/blog" class="w-full block text-left px-5 py-3 text-sm text-[var(--brand-700,#115e59)] bg-gradient-to-r from-[var(--brand-50,#ecfdf5)] to-[var(--brand-50,#f0fdfa)] hover:bg-[var(--brand-50,#d1fae5)] flex items-center space-x-4 transition-all duration-200">
+                    <div class="w-8 h-8 bg-[var(--brand-50,#d1fae5)] rounded-lg flex items-center justify-center">
+                      <i class="fa-solid fa-cogs text-sm text-[var(--brand-600,#0f766e)]"></i>
+                    </div>
+                    <span class="font-semibold">Admin</span>
+                  </a>
+                </div>
+                <a href="/account" class="w-full block text-left px-5 py-3 text-sm text-neutral-700 hover:bg-gradient-to-r hover:from-[var(--brand-50,#ecfdf5)] hover:to-[var(--brand-50,#f0fdfa)] hover:text-[var(--brand-700,#115e59)] flex items-center space-x-4 transition-all duration-200">
+                  <div class="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-user text-sm text-neutral-600"></i>
+                  </div>
+                  <span class="font-medium">My Account</span>
+                </a>
+
+                <div class="border-t border-neutral-100 mt-3 pt-3">
+                  <button id="logout-btn" class="w-full text-left px-5 py-3 text-sm text-neutral-600 hover:bg-red-50 hover:text-red-600 flex items-center space-x-4 transition-all duration-200">
+                    <div class="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
+                      <i class="fa-solid fa-sign-out-alt text-sm text-neutral-500"></i>
+                    </div>
+                    <span class="font-medium">Sign Out</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="mobile-menu-btn" class="md:hidden p-3 text-white hover:text-[var(--brand-400,#86efac)] hover:bg-black/20 rounded-xl transition-all duration-300">
+          <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg transition-transform duration-300"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-40 hidden md:hidden">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" id="mobile-menu-backdrop"></div>
+
+  <!-- Menu Panel -->
+  <div class="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out" id="mobile-menu-panel">
+    <div class="p-6">
+      <!-- Close Button -->
+      <div class="flex justify-between items-center mb-8">
+        <div class="flex items-center space-x-3">
+          <img src="/images/easyyield-logo.png" alt="Easy Yield logo" class="w-8 h-8 object-contain">
+          <span class="text-xl font-bold text-gray-900 uppercase">EASY YIELD</span>
+        </div>
+        <button id="mobile-menu-close" class="p-2 text-gray-400 hover:text-gray-600 rounded-lg">
+          <i class="fa-solid fa-times text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="space-y-2">
+        <a href="/" class="block px-4 py-3 text-gray-900 font-semibold hover:bg-[var(--brand-50,#ecfdf5)] hover:text-[var(--brand-700,#115e59)] rounded-lg transition-colors uppercase">
+          Home
+        </a>
+        <a href="/blog" class="block px-4 py-3 text-gray-900 font-semibold hover:bg-[var(--brand-50,#ecfdf5)] hover:text-[var(--brand-700,#115e59)] rounded-lg transition-colors uppercase">
+          Blog
+        </a>
+        <a href="/about" class="block px-4 py-3 text-gray-900 font-semibold hover:bg-[var(--brand-50,#ecfdf5)] hover:text-[var(--brand-700,#115e59)] rounded-lg transition-colors uppercase">
+          About
+        </a>
+        <a href="/contact" class="block px-4 py-3 text-gray-900 font-semibold hover:bg-[var(--brand-50,#ecfdf5)] hover:text-[var(--brand-700,#115e59)] rounded-lg transition-colors uppercase">
+          Contact
+        </a>
+        <!-- Login link for mobile -->
+        <a href="/login" id="mobile-login-link" class="block px-4 py-3 text-gray-900 font-semibold hover:bg-[var(--brand-50,#ecfdf5)] hover:text-[var(--brand-700,#115e59)] rounded-lg transition-colors uppercase">
+          Login
+        </a>
+      </nav>
+
+      <!-- Social Media Links -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <p class="text-sm font-semibold text-gray-900 mb-4">Follow Us</p>
+        <div class="flex space-x-4">
+          <a href="https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg" target="_blank" rel="noopener noreferrer" class="p-3 text-gray-600 hover:text-[var(--brand-600,#0f766e)] hover:bg-[var(--brand-50,#ecfdf5)] rounded-lg transition-colors">
+            <i class="fab fa-youtube text-lg"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Auth Section -->
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <!-- Not logged in state -->
+  <div id="mobile-auth-not-logged-in" class="hidden">
+          <button id="mobile-signin-btn" class="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-[var(--brand-500,#10b981)] to-[var(--brand-600,#0f766e)] text-white font-semibold rounded-lg hover:from-[var(--brand-600,#0f766e)] hover:to-[var(--brand-700,#115e59)] transition-all">
+            <i class="fa-solid fa-user"></i>
+            <span>Sign In</span>
+          </button>
+        </div>
+
+        <!-- Logged in state -->
+        <div id="mobile-auth-logged-in" class="hidden space-y-2">
+          <div class="flex items-center space-x-3 px-4 py-3 bg-gray-50 rounded-lg">
+            <div id="mobile-user-avatar" class="w-10 h-10 rounded-full bg-gradient-to-r from-[var(--brand-500,#10b981)] to-[var(--brand-600,#0f766e)] flex items-center justify-center text-white font-bold">
+              U
+            </div>
+            <div>
+              <p id="mobile-user-name" class="text-sm font-semibold text-gray-900">User</p>
+              <p id="mobile-user-email" class="text-xs text-gray-600">user@example.com</p>
+            </div>
+          </div>
+
+          <a href="/account" class="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
+            <i class="fa-solid fa-user w-4 mr-3 text-gray-500"></i>
+            My Account
+          </a>
+
+          <!-- Admin links for mobile -->
+          <div id="mobile-admin-links" style="display:none;">
+            <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">Administration</div>
+            <a href="/admin/blog" class="block px-4 py-2 text-gray-700 hover:bg-[var(--brand-50,#ecfdf5)] hover:text-[var(--brand-700,#115e59)] rounded-lg transition-colors text-sm">
+              <i class="fa-solid fa-cogs w-4 mr-3"></i>Admin
+            </a>
+          </div>
+
+          <button id="mobile-logout-btn" class="w-full flex items-center justify-center space-x-2 px-4 py-3 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+            <i class="fa-solid fa-sign-out-alt"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+
+        <!-- Loading state -->
+        <div id="mobile-auth-loading" class="hidden flex items-center justify-center py-4">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--brand-600,#0f766e)]"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Header scroll effect
+  document.addEventListener('DOMContentLoaded', function() {
+    const header = document.getElementById('header');
+    const headerContainer = header.querySelector('.header-container');
+
+    function handleScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (scrollTop > 50) {
+        header.classList.add('header-scrolled');
+        header.classList.remove('header-top');
+      } else {
+        header.classList.remove('header-scrolled');
+        header.classList.add('header-top');
+      }
+    }
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  });
+
+  // Authentication management
+  let currentUser = null;
+
+  async function checkAuth() {
+    const loadingEl = document.getElementById('auth-loading');
+
+    try {
+      const response = await fetch('/api/auth/me/');
+
+      if (response.ok) {
+        const data = await response.json();
+        const user = data.user;
+        if (user) {
+          currentUser = user;
+          showAuthenticatedState(user);
+        } else {
+          currentUser = null;
+          showUnauthenticatedState();
+        }
+      } else {
+        currentUser = null;
+        showUnauthenticatedState();
+      }
+    } catch (error) {
+      if (!(error instanceof Response && error.status === 401)) {
+        console.error('Auth check failed:', error);
+      }
+      currentUser = null;
+      showUnauthenticatedState();
+    } finally {
+      loadingEl.classList.add('hidden');
+      if (_authReadyResolve) { _authReadyResolve(); _authReadyResolve = null; }
+    }
+  }
+
+  function showAuthenticatedState(user) {
+    window.currentUser = user;
+    const notLoggedInEl = document.getElementById('auth-not-logged-in');
+    const loggedInEl = document.getElementById('auth-logged-in');
+    const userNameEl = document.getElementById('user-name');
+    const userEmailEl = document.getElementById('user-email');
+    const userAvatarLargeEl = document.getElementById('user-avatar-large');
+
+    notLoggedInEl.classList.add('hidden');
+    loggedInEl.classList.remove('hidden');
+
+    userNameEl.textContent = user.name || 'User';
+    userEmailEl.textContent = user.email;
+    const firstLetter = (user.name && user.name.length > 0) ? user.name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase();
+    userAvatarLargeEl.textContent = firstLetter;
+
+    const adminLinks = document.getElementById('admin-links');
+    const mobileAdminLinks = document.getElementById('mobile-admin-links');
+    const roleLabel = document.getElementById('user-role-label');
+
+    if (user.group === 'admin') {
+      if (adminLinks) adminLinks.style.display = '';
+      if (mobileAdminLinks) mobileAdminLinks.style.display = '';
+      if (roleLabel) roleLabel.textContent = 'Admin';
+    } else {
+      if (adminLinks) adminLinks.style.display = 'none';
+      if (mobileAdminLinks) mobileAdminLinks.style.display = 'none';
+      if (roleLabel) roleLabel.textContent = 'Member';
+    }
+  }
+
+  function showUnauthenticatedState() {
+    const notLoggedInEl = document.getElementById('auth-not-logged-in');
+    const loggedInEl = document.getElementById('auth-logged-in');
+
+    notLoggedInEl.classList.remove('hidden');
+    loggedInEl.classList.add('hidden');
+    window.currentUser = null;
+  }
+
+  // Logout handler
+  async function handleLogout() {
+    const logoutBtn = document.getElementById('logout-btn');
+    const originalText = logoutBtn.innerHTML;
+
+    try {
+      logoutBtn.innerHTML = `
+        <div class="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-neutral-500"></div>
+        </div>
+        <span class="font-medium">Signing out...</span>
+      `;
+      logoutBtn.disabled = true;
+
+      const response = await fetch('/api/auth/logout/', { method: 'POST' });
+
+      if (response.ok) {
+        currentUser = null;
+        showUnauthenticatedState();
+        window.location.href = '/';
+      } else {
+        throw new Error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Failed to sign out. Please try again.');
+      logoutBtn.innerHTML = originalText;
+      logoutBtn.disabled = false;
+    }
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
+    initializeSearch();
+
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+    // The multi-step auth popup is owned by the shared <LoginPopup> component.
+  });
+
+  // Search functionality (blog posts only)
+  let searchTimeout;
+  let isSearchOpen = false;
+
+  function initializeSearch() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search-input');
+
+    let selectedIndex = -1;
+
+    if (!searchBtn || !searchInput) return;
+
+    searchBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSearch();
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim();
+      if (searchTimeout) clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        if (query.length >= 2) {
+          performSearch(query);
+        } else {
+          hideSearchResults();
+        }
+      }, 300);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      const resultItems = document.querySelectorAll('#search-results a');
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, resultItems.length - 1);
+        updateSelectedResult(resultItems, selectedIndex);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, -1);
+        updateSelectedResult(resultItems, selectedIndex);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedIndex >= 0 && resultItems[selectedIndex]) {
+          window.location.href = resultItems[selectedIndex].href;
+        } else {
+          const query = searchInput.value.trim();
+          if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        }
+      } else if (e.key === 'Escape') {
+        selectedIndex = -1;
+        closeSearch();
+      }
+    });
+
+    function resetSelectedIndex() { selectedIndex = -1; }
+    window.resetSearchSelection = resetSelectedIndex;
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#search-container') && !e.target.closest('#search-results')) {
+        closeSearch();
+      }
+    });
+  }
+
+  function toggleSearch() {
+    const searchInput = document.getElementById('search-input');
+
+    if (!isSearchOpen) {
+      isSearchOpen = true;
+      const logo = document.querySelector('.header-container img');
+      const headerRect = document.querySelector('.container').getBoundingClientRect();
+      let maxWidth = 300;
+      if (logo) {
+        const logoRect = logo.getBoundingClientRect();
+        const distance = headerRect.right - logoRect.right - 40;
+        if (distance > 120) maxWidth = Math.min(distance, 420);
+        else maxWidth = Math.min(300, Math.max(distance, 120));
+      }
+      searchInput.style.width = maxWidth + 'px';
+      searchInput.style.opacity = '1';
+      searchInput.style.pointerEvents = 'auto';
+      setTimeout(() => { searchInput.focus(); }, 300);
+    } else {
+      closeSearch();
+    }
+  }
+
+  function closeSearch() {
+    const searchInput = document.getElementById('search-input');
+    isSearchOpen = false;
+    searchInput.style.width = '0';
+    searchInput.style.opacity = '0';
+    searchInput.style.pointerEvents = 'none';
+    searchInput.value = '';
+    hideSearchResults();
+  }
+
+  async function performSearch(query) {
+    const searchLoading = document.getElementById('search-loading');
+    const searchContent = document.getElementById('search-content');
+    const searchEmpty = document.getElementById('search-empty');
+
+    if (window.resetSearchSelection) window.resetSearchSelection();
+
+    showSearchResults();
+    searchLoading.classList.remove('hidden');
+    searchContent.classList.add('hidden');
+    searchEmpty.classList.add('hidden');
+
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=8`);
+      const data = await response.json();
+
+      searchLoading.classList.add('hidden');
+
+      if (data.results && data.results.length > 0) {
+        renderSearchResults(data.results);
+        searchContent.classList.remove('hidden');
+      } else {
+        searchEmpty.classList.remove('hidden');
+      }
+    } catch (error) {
+      console.error('Search failed:', error);
+      searchLoading.classList.add('hidden');
+      searchEmpty.classList.remove('hidden');
+    }
+  }
+
+  function updateSelectedResult(resultItems, selectedIndex) {
+    resultItems.forEach((item, index) => {
+      if (index === selectedIndex) {
+        item.classList.add('bg-[var(--brand-50,#ecfdf5)]', 'ring-2', 'ring-[var(--brand-50,#d1fae5)]');
+      } else {
+        item.classList.remove('bg-[var(--brand-50,#ecfdf5)]', 'ring-2', 'ring-[var(--brand-50,#d1fae5)]');
+      }
+    });
+  }
+
+  function renderSearchResults(results) {
+    const searchContent = document.getElementById('search-content');
+
+    const html = results.map(result => {
+      const typeIcon = 'fa-blog';
+      const typeColor = 'text-[var(--brand-600,#0f766e)]';
+
+      let imageHtml;
+      if (result.image && result.image.trim() !== '' && result.image !== 'null') {
+        imageHtml = `<img src="${result.image}" alt="${result.title}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                     <div class="w-12 h-12 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0" style="display: none;">
+                       <i class="fa-solid ${typeIcon} ${typeColor}"></i>
+                     </div>`;
+      } else {
+        imageHtml = `<div class="w-12 h-12 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
+                       <i class="fa-solid ${typeIcon} ${typeColor}"></i>
+                     </div>`;
+      }
+
+      return `
+        <a href="${result.url}" class="block p-4 hover:bg-neutral-50 transition-colors duration-200 border-b border-neutral-100 last:border-b-0 rounded-lg">
+          <div class="flex items-start space-x-3">
+            ${imageHtml}
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2 mb-1">
+                <h4 class="text-sm font-semibold text-neutral-900 truncate">${result.title}</h4>
+              </div>
+              ${result.excerpt ? `<p class="text-xs text-neutral-600 line-clamp-2">${result.excerpt}</p>` : ''}
+              <div class="flex items-center space-x-2 mt-1">
+                <span class="inline-flex items-center space-x-1 text-xs ${typeColor}">
+                  <i class="fa-solid ${typeIcon}"></i>
+                  <span class="capitalize">${result.type}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+      `;
+    }).join('');
+
+    searchContent.innerHTML = html;
+  }
+
+  function showSearchResults() {
+    const searchResults = document.getElementById('search-results');
+    searchResults.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+    searchResults.classList.add('opacity-100', 'visible', 'translate-y-0');
+  }
+
+  function hideSearchResults() {
+    const searchResults = document.getElementById('search-results');
+    searchResults.classList.remove('opacity-100', 'visible', 'translate-y-0');
+    searchResults.classList.add('opacity-0', 'invisible', 'translate-y-2');
+  }
+
+  // Global functions
+  window.refreshAuth = checkAuth;
+  window.showAuthDropdown = function () { document.dispatchEvent(new CustomEvent('cms:auth-open')); };
+
+  // authReady resolves once checkAuth completes.
+  let _authReadyResolve;
+  window.authReady = new Promise((resolve) => { _authReadyResolve = resolve; });
+
+  document.addEventListener('cms:auth-required', function () {
+    document.dispatchEvent(new CustomEvent('cms:auth-open'));
+  });
+
+  // Mobile menu handlers
+  function openMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const panel = document.getElementById('mobile-menu-panel');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    if (!mobileMenu || !panel || !backdrop) return;
+    mobileMenu.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      panel.classList.remove('translate-x-full');
+      panel.classList.add('translate-x-0');
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-50');
+    });
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const panel = document.getElementById('mobile-menu-panel');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    if (!mobileMenu || !panel || !backdrop) return;
+    panel.classList.remove('translate-x-0');
+    panel.classList.add('translate-x-full');
+    backdrop.classList.remove('opacity-50');
+    backdrop.classList.add('opacity-0');
+    setTimeout(() => {
+      mobileMenu.classList.add('hidden');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  function initMobileMenuHandlers() {
+    const openBtn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+
+    if (openBtn) openBtn.addEventListener('click', (e) => { e.stopPropagation(); openMobileMenu(); });
+    if (closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeMobileMenu(); });
+    if (backdrop) backdrop.addEventListener('click', closeMobileMenu);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenuHandlers);
+  } else {
+    initMobileMenuHandlers();
+  }
+</script>
+
+<style>
+  .site-header {
+    transition: all 0.5s ease;
+  }
+
+  .site-header.header-top {
+    background: var(--brand-600, #0f766e);
+  }
+
+  .site-header.header-top .header-container {
+    height: 6rem;
+  }
+
+  .site-header.header-scrolled {
+    background: var(--brand-700, #115e59);
+  }
+
+  .site-header.header-scrolled .header-container {
+    height: 4rem;
+  }
+
+  @media (max-width: 767px) {
+    #site-title { display: none; }
+    #signin-btn { display: none; }
+    #search-input { max-width: 420px; }
+  }
+</style>

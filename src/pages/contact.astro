@@ -1,0 +1,280 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/ui/Footer.astro'
+import { footerConfig } from '../data/footer'
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
+  <!-- Preload and static Tailwind CSS (built at build-time) -->
+  <link rel="preload" href="/tailwind.css?v=20260625c" as="style">
+  <link rel="stylesheet" href="/tailwind.css?v=20260625c">
+  <!-- Minimal critical CSS to avoid FOUC until tailwind.css loads -->
+  <style>
+    html,body{font-family:Inter,system-ui,-apple-system}
+  </style>
+  <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" />
+  <script>
+    // Dynamically load reCAPTCHA Enterprise script and only resolve when the
+    // full grecaptcha.enterprise API (execute) is available.
+    window._loadRecaptchaEnterprise = function(siteKey) {
+      return new Promise((resolve, reject) => {
+        // If already ready and has execute, resolve immediately
+        if (window.grecaptcha && window.grecaptcha.enterprise && typeof window.grecaptcha.enterprise.execute === 'function') {
+          return resolve(window.grecaptcha);
+        }
+
+        // If script tag already exists, wait for API readiness
+        const existing = document.querySelector('script[data-recaptcha-enterprise]');
+        const waitForReady = () => {
+            // Poll for execute becoming available (short timeout)
+          const start = Date.now();
+          const id = setInterval(() => {
+            if (window.grecaptcha && window.grecaptcha.enterprise && typeof window.grecaptcha.enterprise.execute === 'function') {
+              clearInterval(id);
+              return resolve(window.grecaptcha);
+            }
+            if (Date.now() - start > 10000) { // 10s timeout
+              clearInterval(id);
+              return reject(new Error('grecaptcha.enterprise.execute not available (timeout)'));
+            }
+          }, 200);
+        };
+
+        if (existing) {
+          existing.addEventListener('load', waitForReady);
+          existing.addEventListener('error', () => reject(new Error('Failed to load grecaptcha')));
+          // Also try immediately in case the script already loaded but execute wasn't ready
+          waitForReady();
+          return;
+        }
+
+        const s = document.createElement('script');
+        s.src = `https://www.google.com/recaptcha/enterprise.js?render=${encodeURIComponent(siteKey)}`;
+        s.async = true;
+        s.defer = true;
+        s.setAttribute('data-recaptcha-enterprise', '1');
+        s.addEventListener('error', () => reject(new Error('Failed to load grecaptcha')));
+        s.addEventListener('load', waitForReady);
+        document.head.appendChild(s);
+      });
+    };
+  </script>
+  <title>Contact - Easy Yield</title>
+  <meta name="description" content="Get in touch with Easy Yield — questions, feedback, collaboration and media inquiries about our Canadian personal-finance comics and vlogs." />
+  <link rel="canonical" href="https://easyyield.ca/contact" />
+</head>
+<body>
+  <Header />
+
+  <main class="pt-24 pb-16">
+    <div class="container mx-auto px-6">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <!-- Contact Form -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="text-2xl font-bold text-neutral-900 mb-6">Send a Message</h2>
+          <form id="contact-form" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="firstName" class="block text-sm font-medium text-neutral-700 mb-2">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  autocomplete="given-name"
+                  required
+                  class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                  placeholder="John"
+                >
+              </div>
+              <div>
+                <label for="lastName" class="block text-sm font-medium text-neutral-700 mb-2">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  autocomplete="family-name"
+                  required
+                  class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                  placeholder="Doe"
+                >
+              </div>
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-neutral-700 mb-2">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+                class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                placeholder="john@example.com"
+              >
+            </div>
+
+            <div>
+              <label for="subject" class="block text-sm font-medium text-neutral-700 mb-2">Subject</label>
+              <select 
+                id="subject" 
+                name="subject"
+                required
+                class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+              >
+                <option value="">Select a topic</option>
+                <option value="general">General Inquiry</option>
+                <option value="feedback">Feedback / Suggestions</option>
+                <option value="collab">Collaboration</option>
+                <option value="press">Press / Media</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-medium text-neutral-700 mb-2">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                required
+                class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all resize-none"
+                placeholder="What would you like to say?"
+              ></textarea>
+            </div>
+
+
+            <button
+              type="submit"
+              class="btn-cta w-full"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="space-y-8">
+          <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-bold text-neutral-900 mb-6">Get in Touch</h2>
+            <div class="space-y-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <i class="fa-solid fa-envelope text-amber-500 text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-neutral-900">Email</h3>
+                  <p class="text-neutral-600">info@easyyield.ca</p>
+                  <p class="text-neutral-500 text-sm">Replies within 2–3 business days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <h3 class="text-xl font-bold text-neutral-900 mb-4">Say Hello</h3>
+            <p class="text-neutral-600 leading-relaxed">
+              We love hearing from the Easy Yield community — whether it's a money question, a topic you'd like Mike to cover, feedback on a comic, or just a note to say hi. All messages are read personally.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer 
+    companyName={footerConfig.companyName}
+    showSocialLinks={footerConfig.showSocialLinks}
+    showQuickLinks={footerConfig.showQuickLinks}
+    showNewsletter={footerConfig.showNewsletter}
+  />
+
+<script>
+  // Contact form submission with reCAPTCHA Enterprise
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Get form data
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    // Update button state
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    try {
+      // Ensure reCAPTCHA script is loaded (dynamic loader appends a script tag)
+      await window._loadRecaptchaEnterprise('6Lef-9ArAAAAAL5o9nHnUdS45GAVSdG2jR-tFHzP');
+      // Get reCAPTCHA token (loader ensures `execute` is available)
+      const recaptchaToken = await grecaptcha.enterprise.execute('6Lef-9ArAAAAAL5o9nHnUdS45GAVSdG2jR-tFHzP', {
+        action: 'CONTACT_FORM'
+      });
+
+      // Prepare email data
+      const emailData = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+        recaptchaToken: recaptchaToken
+      };
+
+      // Send email via API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Success state
+        submitBtn.textContent = 'Message Sent!';
+        submitBtn.classList.remove('btn-cta');
+        submitBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+
+        // Reset form after delay
+        setTimeout(() => {
+          this.reset();
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+          submitBtn.classList.add('btn-cta');
+        }, 3000);
+      } else {
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+    } catch (error) {
+      console.error('Failed to send email:', error);
+
+      // Error state
+      submitBtn.textContent = 'Failed to Send';
+      submitBtn.classList.remove('btn-cta');
+      submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+
+      // Reset after delay
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+        submitBtn.classList.add('btn-cta');
+      }, 3000);
+    }
+  });
+</script>
+</body>
+</html>

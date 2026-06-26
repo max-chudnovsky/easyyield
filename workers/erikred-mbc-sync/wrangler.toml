@@ -1,0 +1,23 @@
+name = "erikred-mbc-sync"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cron is triggered by VM cron job calling POST /trigger at 2am UTC
+# (account cron limit reached — using VM-triggered HTTP instead of CF cron)
+
+[[d1_databases]]
+binding = "DB"
+database_name = "erikred-db"
+database_id = "aea3f4c6-37f2-4d74-88c7-6d68352d001f"
+
+[[d1_databases]]
+binding = "MBC_DB"
+database_name = "myblogcenter"
+database_id = "84e2b291-0c67-48b7-b8e6-5390aef81e3e"
+
+[ai]
+binding = "AI"
+
+[vars]
+SITE_SLUG = "erikred"

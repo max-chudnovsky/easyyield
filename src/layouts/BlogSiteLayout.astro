@@ -1,0 +1,48 @@
+---
+/**
+ * Site public-page shell for cms-blog injected pages (/blog, /blog/[slug]).
+ * Aliased to `@cms/cms-blog/site-blog-layout` in astro.config so the shared
+ * module's blog pages render inside Easy Yield's real Header + Footer (same chrome
+ * the native blog pages used). This is generic site chrome — no blog logic.
+ *
+ * Slot contract (consumed by the module pages):
+ *   <slot name="head" />  — per-page <head> children (title/canonical/meta/hreflang)
+ *   <slot />              — page body, rendered inside <main>
+ */
+import Header from '../components/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+import { footerConfig } from '../data/footer';
+
+interface Props {
+  bodyClass?: string;
+  mainClass?: string;
+}
+const { bodyClass = 'bg-[#faf7f4]', mainClass = 'min-h-screen pt-24 pb-16' } = Astro.props as Props;
+---
+<head>
+  <!-- Easy Yield base chrome assets so any module page using this layout
+       (cms-blog + cms-users) renders the real Header/Footer styled. Pages add
+       their own title/canonical/meta via the head slot. -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
+  <link rel="stylesheet" href="/tailwind.css?v=20260625c" />
+  <link rel="stylesheet" href="/styles/brand.css?v=20260626g" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" is:inline></script>
+  <slot name="head" />
+</head>
+
+<body class={bodyClass}>
+  <Header />
+
+  <main class={mainClass}>
+    <slot />
+  </main>
+
+  <Footer
+    companyName={footerConfig.companyName}
+    showSocialLinks={footerConfig.showSocialLinks}
+    showQuickLinks={footerConfig.showQuickLinks}
+    showNewsletter={footerConfig.showNewsletter}
+  />
+</body>

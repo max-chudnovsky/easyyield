@@ -1,0 +1,554 @@
+---
+import Header from '../components/Header.astro';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Easy Yield</title>
+  <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
+  <link rel="stylesheet" href="/tailwind.css?v=20260625c">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="min-h-screen">
+  <Header />
+
+  <main class="max-w-[1400px] mx-auto px-6 py-8">
+    <div id="settings-loading" class="text-center py-8">
+      <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-600 mx-auto"></div>
+      <p class="mt-3 text-gray-600">Loading settings...</p>
+    </div>
+
+    <div id="settings-login-redirect" class="hidden text-center py-16">
+      <i class="fa-solid fa-user-lock text-5xl text-gray-400 mb-4"></i>
+      <h2 class="text-2xl font-bold text-gray-900">Sign In Required</h2>
+      <p class="text-gray-600 mt-2 mb-6">Please sign in to manage your account settings.</p>
+      <a href="/login?redirect=/settings" class="inline-flex items-center px-6 py-3 rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700">
+        <i class="fa-solid fa-sign-in-alt mr-2"></i>Sign In
+      </a>
+    </div>
+
+    <div id="settings-content" class="hidden">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
+        <p class="text-gray-600 mt-2">Manage account preferences and email integrations.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Account</h2>
+          <div id="settings-user-info" class="space-y-2 text-sm text-gray-700"></div>
+          <div class="mt-5">
+            <a href="/account" class="text-amber-700 hover:text-amber-800 font-medium">Go to account dashboard</a>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Resend Integration</h2>
+          <div id="settings-message" class="hidden px-4 py-3 rounded-lg text-sm mb-4"></div>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Status</span>
+              <span id="resend-status-pill" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700">Checking...</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Config Source</span>
+              <span id="resend-source" class="font-medium text-gray-800">-</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Stored Key</span>
+              <span id="resend-key-mask" class="font-medium text-gray-800">-</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">From Email</span>
+              <span id="resend-from" class="font-medium text-gray-800">-</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Support Email</span>
+              <span id="resend-contact" class="font-medium text-gray-800">-</span>
+            </div>
+          </div>
+
+          <div class="mt-5 space-y-2">
+            <label for="resend-key-input" class="block text-sm font-medium text-gray-700">Resend API Key (saved in DB)</label>
+            <input id="resend-key-input" type="password" autocomplete="off" placeholder="re_..."
+              class="w-full rounded-lg border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500" />
+            <p id="resend-key-help" class="text-xs text-gray-500">Leave empty and save to remove DB key and use environment fallback.</p>
+            <button id="save-resend-key-btn" class="w-full bg-gray-900 text-white py-2.5 px-4 rounded-lg hover:bg-gray-800 transition-all duration-200 font-medium">
+              Save Resend Key
+            </button>
+          </div>
+
+          <button id="send-test-email-btn" class="mt-5 w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-2.5 px-4 rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-200 font-medium">
+            Send Test Email
+          </button>
+        </section>
+
+        <!-- SEO Integration -->
+        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass-chart text-teal-600"></i>
+            SEO Integration
+          </h2>
+          <p class="text-xs text-gray-500 mb-4">Credentials for Google Search Console URL inspection and IndexNow submissions.</p>
+
+          <div id="seo-int-message" class="hidden px-4 py-3 rounded-lg text-sm mb-4"></div>
+
+          <!-- Status row -->
+          <div class="space-y-2 text-sm mb-5">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">GSC Service Account</span>
+              <span id="gsc-sa-status" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700">Checking…</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">IndexNow Key</span>
+              <span id="indexnow-status" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700">—</span>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Site URL -->
+            <div class="space-y-1">
+              <label for="seo-site-url" class="block text-sm font-medium text-gray-700">
+                Site URL
+                <span class="ml-1 text-xs font-normal text-gray-400">— used as base for all URL submissions</span>
+              </label>
+              <input id="seo-site-url" type="url" autocomplete="off" placeholder="https://easyyield.ca"
+                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm" />
+            </div>
+
+            <hr class="border-gray-100" />
+
+            <!-- Google Search Console -->
+            <div class="space-y-3">
+              <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Google Search Console</p>
+
+              <div class="space-y-1">
+                <label for="gsc-property" class="block text-sm font-medium text-gray-700">
+                  Property URL
+                  <span class="ml-1 text-xs font-normal text-gray-400">— exact GSC property (e.g. sc-domain:easyyield.ca)</span>
+                </label>
+                <input id="gsc-property" type="text" autocomplete="off" placeholder="sc-domain:easyyield.ca"
+                  class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm" />
+              </div>
+
+              <div class="space-y-1">
+                <label for="gsc-service-account" class="block text-sm font-medium text-gray-700">
+                  Service Account JSON
+                  <span class="ml-1 text-xs font-normal text-gray-400">— from Google Cloud Console → IAM → Service Accounts → Keys</span>
+                </label>
+                <textarea id="gsc-service-account" rows="5" autocomplete="off"
+                  placeholder='{"type":"service_account","project_id":"...","private_key_id":"...","private_key":"-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----\n","client_email":"...@....iam.gserviceaccount.com","client_id":"...","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token",...}'
+                  class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm font-mono text-xs resize-y"></textarea>
+                <p class="text-xs text-gray-500">Paste the full JSON key. The service account must be added as a user on the GSC property with at least "Restricted" permissions. Leave blank to keep the existing value.</p>
+              </div>
+
+              <div class="space-y-1">
+                <label for="gsc-auth-source" class="block text-sm font-medium text-gray-700">
+                  GSC Auth Source
+                  <span class="ml-1 text-xs font-normal text-gray-400">— use OAuth with your account if service account access is blocked</span>
+                </label>
+                <select id="gsc-auth-source" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm">
+                  <option value="service_account">Service Account</option>
+                  <option value="oauth">OAuth (My Google Account)</option>
+                </select>
+              </div>
+
+              <div class="space-y-1 border border-gray-200 rounded-lg p-3 bg-gray-50">
+                <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide">OAuth (one-time consent)</p>
+
+                <label for="gsc-oauth-client-id" class="block text-sm font-medium text-gray-700 mt-2">OAuth Client ID</label>
+                <input id="gsc-oauth-client-id" type="text" autocomplete="off" placeholder="1234567890-xxxx.apps.googleusercontent.com"
+                  class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm font-mono" />
+
+                <label for="gsc-oauth-client-secret" class="block text-sm font-medium text-gray-700 mt-2">OAuth Client Secret</label>
+                <input id="gsc-oauth-client-secret" type="password" autocomplete="off" placeholder="GOCSPX-..."
+                  class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm font-mono" />
+
+                <div class="flex items-center justify-between mt-2 text-xs">
+                  <span class="text-gray-600">OAuth refresh token</span>
+                  <span id="gsc-oauth-status" class="px-2 py-1 rounded-full bg-gray-100 text-gray-600">Not connected</span>
+                </div>
+
+                <button id="gsc-connect-oauth-btn" type="button"
+                  class="mt-3 w-full inline-flex items-center justify-center bg-white border border-teal-600 text-teal-700 py-2 px-3 rounded-lg hover:bg-teal-50 transition-all duration-200 text-sm font-medium">
+                  <i class="fa-brands fa-google mr-2"></i>Connect Google OAuth
+                </button>
+              </div>
+
+              <button id="gsc-test-queries-btn" type="button"
+                class="w-full bg-white border border-gray-300 text-gray-800 py-2.5 px-4 rounded-lg transition-all duration-200 font-medium text-sm hover:bg-gray-50">
+                <i class="fa-solid fa-chart-line mr-2"></i>Test GSC Query Pull
+              </button>
+
+              <div id="gsc-query-result" class="hidden rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs text-gray-700"></div>
+            </div>
+
+            <hr class="border-gray-100" />
+
+            <!-- Core Web Vitals -->
+            <div class="space-y-3">
+              <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Core Web Vitals</p>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <label for="psi-api-key" class="block text-sm font-medium text-gray-700">
+                    Google PageSpeed Insights API Key
+                    <span class="ml-1 text-xs font-normal text-gray-400">— used to pull Core Web Vitals (LCP/CLS/INP) and Lighthouse scores</span>
+                  </label>
+                  <span id="psi-key-status" class="px-2 py-1 rounded-full bg-gray-100 text-gray-600 text-xs">Not set</span>
+                </div>
+                <input id="psi-api-key" type="password" autocomplete="off" placeholder="AIzaSy..."
+                  class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm font-mono" />
+                <p class="text-xs text-gray-500">Leave blank to keep the existing key. From Google Cloud Console → APIs &amp; Credentials, restricted to PageSpeed Insights API + Chrome UX Report API.</p>
+              </div>
+            </div>
+
+            <hr class="border-gray-100" />
+
+            <!-- IndexNow -->
+            <div class="space-y-3">
+              <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide">IndexNow</p>
+
+              <div class="space-y-1">
+                <div class="block text-sm font-medium text-gray-700">
+                  IndexNow API Key
+                </div>
+                <div id="indexnow-key-display" class="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 font-mono text-xs text-gray-700 break-all">Loading…</div>
+                <p class="text-xs text-gray-500">This key is generated automatically and saved in the database.</p>
+              </div>
+
+              <div class="space-y-1">
+                <label for="indexnow-key-path" class="block text-sm font-medium text-gray-700">
+                  Key File Path
+                  <span class="ml-1 text-xs font-normal text-gray-400">— the public file served from the site root</span>
+                </label>
+                <input id="indexnow-key-path" type="text" readonly
+                  class="w-full rounded-lg border-gray-300 bg-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm font-mono" />
+              </div>
+
+              <div class="space-y-1">
+                <label for="bing-indexnow-url" class="block text-sm font-medium text-gray-700">
+                  IndexNow Endpoint
+                  <span class="ml-1 text-xs font-normal text-gray-400">— default is Bing (propagates to all supported engines)</span>
+                </label>
+                <input id="bing-indexnow-url" type="url" autocomplete="off" placeholder="https://www.bing.com/indexnow"
+                  class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm" />
+              </div>
+            </div>
+
+            <button id="save-seo-integrations-btn"
+              class="w-full bg-teal-700 hover:bg-teal-800 text-white py-2.5 px-4 rounded-lg transition-all duration-200 font-medium text-sm">
+              <i class="fa-solid fa-floppy-disk mr-2"></i>Save SEO Integration Settings
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentUser = null;
+
+    const loadingEl = document.getElementById('settings-loading');
+    const loginRedirectEl = document.getElementById('settings-login-redirect');
+    const contentEl = document.getElementById('settings-content');
+    const messageEl = document.getElementById('settings-message');
+    const testBtn = document.getElementById('send-test-email-btn');
+    const saveKeyBtn = document.getElementById('save-resend-key-btn');
+    const resendKeyInput = document.getElementById('resend-key-input');
+
+    function showMessage(message, isError = false) {
+      messageEl.textContent = message;
+      messageEl.classList.remove('hidden');
+      messageEl.className = `px-4 py-3 rounded-lg text-sm mb-4 ${isError ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700'}`;
+    }
+
+    async function loadAuth() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          loadingEl.classList.add('hidden');
+          loginRedirectEl.classList.remove('hidden');
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.user) {
+          loadingEl.classList.add('hidden');
+          loginRedirectEl.classList.remove('hidden');
+          return;
+        }
+
+        currentUser = data.user;
+        document.getElementById('settings-user-info').innerHTML = `
+          <div><span class="text-gray-600">Name:</span> <span class="font-medium text-gray-900">${currentUser.name || 'N/A'}</span></div>
+          <div><span class="text-gray-600">Email:</span> <span class="font-medium text-gray-900">${currentUser.email}</span></div>
+          <div><span class="text-gray-600">Role:</span> <span class="font-medium text-gray-900">${currentUser.group || 'user'}</span></div>
+        `;
+
+        await Promise.all([loadResendStatus(), loadSeoIntegrations()]);
+
+        loadingEl.classList.add('hidden');
+        contentEl.classList.remove('hidden');
+      } catch (error) {
+        loadingEl.classList.add('hidden');
+        loginRedirectEl.classList.remove('hidden');
+      }
+    }
+
+    async function loadResendStatus() {
+      const response = await fetch('/api/settings/resend-status');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to load settings status');
+      }
+
+      const statusPill = document.getElementById('resend-status-pill');
+      statusPill.textContent = data.resendConfigured ? 'Connected' : 'Not Configured';
+      statusPill.className = data.resendConfigured
+        ? 'px-3 py-1 rounded-full bg-green-100 text-green-700'
+        : 'px-3 py-1 rounded-full bg-red-100 text-red-700';
+
+      document.getElementById('resend-source').textContent = data.source || 'none';
+      document.getElementById('resend-key-mask').textContent = data.maskedDbKey || 'Not stored in DB';
+      document.getElementById('resend-from').textContent = data.fromEmail;
+      document.getElementById('resend-contact').textContent = data.contactEmail;
+
+      testBtn.disabled = !data.resendConfigured;
+      testBtn.classList.toggle('opacity-50', !data.resendConfigured);
+      testBtn.classList.toggle('cursor-not-allowed', !data.resendConfigured);
+
+      const canEdit = Boolean(data.canEdit);
+      saveKeyBtn.disabled = !canEdit;
+      resendKeyInput.disabled = !canEdit;
+      saveKeyBtn.classList.toggle('opacity-50', !canEdit);
+      saveKeyBtn.classList.toggle('cursor-not-allowed', !canEdit);
+      if (!canEdit) {
+        document.getElementById('resend-key-help').textContent = 'Only administrators can modify this setting.';
+      }
+    }
+
+    testBtn.addEventListener('click', async () => {
+      const original = testBtn.textContent;
+      messageEl.classList.add('hidden');
+
+      try {
+        testBtn.disabled = true;
+        testBtn.textContent = 'Sending...';
+
+        const response = await fetch('/api/settings/test-email', { method: 'POST' });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to send test email');
+        }
+
+        showMessage(data.message || 'Test email sent successfully.');
+      } catch (error) {
+        showMessage(error.message || 'Failed to send test email.', true);
+      } finally {
+        testBtn.disabled = false;
+        testBtn.textContent = original;
+      }
+    });
+
+    saveKeyBtn.addEventListener('click', async () => {
+      const original = saveKeyBtn.textContent;
+      messageEl.classList.add('hidden');
+
+      try {
+        saveKeyBtn.disabled = true;
+        saveKeyBtn.textContent = 'Saving...';
+
+        const response = await fetch('/api/settings/resend-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ resendApiKey: resendKeyInput.value })
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to save Resend key');
+        }
+
+        showMessage(data.message || 'Resend key saved.');
+        resendKeyInput.value = '';
+        await loadResendStatus();
+      } catch (error) {
+        showMessage(error.message || 'Failed to save Resend key.', true);
+      } finally {
+        saveKeyBtn.disabled = false;
+        saveKeyBtn.textContent = original;
+      }
+    });
+
+    // ── SEO Integration ────────────────────────────────────────────────
+    async function loadSeoIntegrations() {
+      try {
+        const res = await fetch('/api/settings/seo-integrations');
+        if (!res.ok) return;
+        const d = await res.json();
+
+        document.getElementById('seo-site-url').value       = d.siteUrl || '';
+        document.getElementById('gsc-property').value       = d.gscProperty || '';
+        document.getElementById('gsc-auth-source').value    = d.gscAuthSource || 'service_account';
+        document.getElementById('gsc-oauth-client-id').value = d.gscOauthClientId || '';
+        document.getElementById('indexnow-key-display').textContent = d.indexnowKey || 'Not set';
+        document.getElementById('indexnow-key-path').value   = d.indexnowKeyPath || '';
+        document.getElementById('bing-indexnow-url').value   = d.bingIndexnowUrl || '';
+
+        const saPill = document.getElementById('gsc-sa-status');
+        saPill.textContent  = d.gscServiceAccountSet ? 'Stored' : 'Not set';
+        saPill.className    = d.gscServiceAccountSet
+          ? 'px-3 py-1 rounded-full bg-green-100 text-green-700'
+          : 'px-3 py-1 rounded-full bg-gray-100 text-gray-500';
+
+        const oauthPill = document.getElementById('gsc-oauth-status');
+        oauthPill.textContent = d.gscOauthRefreshTokenSet ? 'Connected' : 'Not connected';
+        oauthPill.className = d.gscOauthRefreshTokenSet
+          ? 'px-2 py-1 rounded-full bg-green-100 text-green-700'
+          : 'px-2 py-1 rounded-full bg-gray-100 text-gray-600';
+
+        const psiPill = document.getElementById('psi-key-status');
+        psiPill.textContent = d.psiApiKeySet ? 'Stored' : 'Not set';
+        psiPill.className = d.psiApiKeySet
+          ? 'px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs'
+          : 'px-2 py-1 rounded-full bg-gray-100 text-gray-600 text-xs';
+
+      } catch (e) {
+        console.error('Failed to load SEO integrations', e);
+      }
+    }
+
+    document.getElementById('save-seo-integrations-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('save-seo-integrations-btn');
+      const msgEl = document.getElementById('seo-int-message');
+      const original = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Saving…';
+      msgEl.classList.add('hidden');
+      try {
+        const res = await fetch('/api/settings/seo-integrations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            siteUrl:              document.getElementById('seo-site-url').value,
+            gscProperty:          document.getElementById('gsc-property').value,
+            gscAuthSource:        document.getElementById('gsc-auth-source').value,
+            gscServiceAccountJson: document.getElementById('gsc-service-account').value,
+            gscOauthClientId:     document.getElementById('gsc-oauth-client-id').value,
+            gscOauthClientSecret: document.getElementById('gsc-oauth-client-secret').value,
+            bingIndexnowUrl:      document.getElementById('bing-indexnow-url').value,
+            psiApiKey:            document.getElementById('psi-api-key').value,
+          }),
+          credentials: 'include',
+        });
+        const d = await res.json();
+        msgEl.textContent  = d.success ? 'SEO integration settings saved.' : (d.error || 'Save failed.');
+        msgEl.className    = `px-4 py-3 rounded-lg text-sm mb-4 ${d.success ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-red-50 border border-red-200 text-red-700'}`;
+        msgEl.classList.remove('hidden');
+        if (d.success) {
+          await loadSeoIntegrations();
+          document.getElementById('gsc-service-account').value = '';
+          document.getElementById('gsc-oauth-client-secret').value = '';
+          document.getElementById('psi-api-key').value = '';
+        }
+      } catch (e) {
+        msgEl.textContent = 'Network error saving SEO settings.';
+        msgEl.className   = 'px-4 py-3 rounded-lg text-sm mb-4 bg-red-50 border border-red-200 text-red-700';
+        msgEl.classList.remove('hidden');
+      } finally {
+        btn.disabled  = false;
+        btn.innerHTML = original;
+      }
+    });
+
+    document.getElementById('gsc-connect-oauth-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('gsc-connect-oauth-btn');
+      const msgEl = document.getElementById('seo-int-message');
+      const original = btn.innerHTML;
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Saving + redirecting…';
+      msgEl.classList.add('hidden');
+
+      try {
+        const saveRes = await fetch('/api/settings/seo-integrations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            gscOauthClientId: document.getElementById('gsc-oauth-client-id').value,
+            gscOauthClientSecret: document.getElementById('gsc-oauth-client-secret').value,
+            gscAuthSource: 'oauth',
+          }),
+          credentials: 'include',
+        });
+
+        const saveData = await saveRes.json();
+        if (!saveRes.ok) {
+          throw new Error(saveData.error || 'Failed to save OAuth client settings');
+        }
+
+        window.location.href = '/api/settings/gsc-oauth-start';
+      } catch (e) {
+        msgEl.textContent = e.message || 'Failed to start OAuth flow.';
+        msgEl.className = 'px-4 py-3 rounded-lg text-sm mb-4 bg-red-50 border border-red-200 text-red-700';
+        msgEl.classList.remove('hidden');
+        btn.disabled = false;
+        btn.innerHTML = original;
+      }
+    });
+
+    document.getElementById('gsc-test-queries-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('gsc-test-queries-btn');
+      const resultEl = document.getElementById('gsc-query-result');
+      const original = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Testing…';
+      resultEl.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/settings/gsc-queries', { credentials: 'include' });
+        const d = await res.json();
+        if (!res.ok) throw new Error(d.error || 'Query test failed');
+
+        const sample = (d.rows || []).slice(0, 5).map((r, i) =>
+          `${i + 1}. ${r.query} | clicks=${r.clicks}, impressions=${r.impressions}, ctr=${(r.ctr * 100).toFixed(2)}%, pos=${r.position.toFixed(2)}`
+        ).join('\n');
+
+        resultEl.textContent = `Property: ${d.property}\nAuth source: ${d.authSource}\nDate range: ${d.startDate} to ${d.endDate}\nRows: ${d.count}\n\n${sample || 'No query rows returned.'}`;
+        resultEl.classList.remove('hidden');
+      } catch (e) {
+        resultEl.textContent = e.message || 'Query test failed.';
+        resultEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = original;
+      }
+    });
+
+    const oauthStatus = new URLSearchParams(window.location.search).get('gsc_oauth');
+    if (oauthStatus) {
+      const msgEl = document.getElementById('seo-int-message');
+      const reason = new URLSearchParams(window.location.search).get('reason');
+      if (oauthStatus === 'connected') {
+        msgEl.textContent = 'Google OAuth connected successfully.';
+        msgEl.className = 'px-4 py-3 rounded-lg text-sm mb-4 bg-green-50 border border-green-200 text-green-700';
+      } else {
+        msgEl.textContent = `Google OAuth failed${reason ? `: ${reason}` : ''}`;
+        msgEl.className = 'px-4 py-3 rounded-lg text-sm mb-4 bg-red-50 border border-red-200 text-red-700';
+      }
+      msgEl.classList.remove('hidden');
+      history.replaceState({}, '', '/settings');
+    }
+
+    // ── Boot ───────────────────────────────────────────────────────────
+    loadAuth();
+  </script>
+</body>
+</html>

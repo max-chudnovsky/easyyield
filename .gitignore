@@ -1,0 +1,10 @@
+.astro/
+.wrangler/
+node_modules/
+.env
+dev-auth-db.json
+dist/
+package.json.bak
+src_theme/
+config/
+archive/

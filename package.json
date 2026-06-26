@@ -1,0 +1,69 @@
+{
+  "name": "easyyield",
+  "type": "module",
+  "version": "1.0.0",
+  "workspaces": [
+    "shared/packages/*"
+  ],
+  "scripts": {
+    "dev": "astro dev",
+    "build:css": "tailwindcss -i src/styles/tailwind.css -o public/tailwind.css --minify",
+    "build": "npm run build:css && astro build && cp .assetsignore dist/.assetsignore",
+    "preview": "./scripts/preview-on-3000.sh",
+    "deploy": "./scripts/deploy-prod.sh",
+    "deploy:advanced": "./scripts/deploy-advanced.sh",
+    "deploy:quick": "./scripts/deploy-advanced.sh --skip-git",
+    "migrate:blog": "./scripts/migrate-blog.sh",
+    "astro": "astro",
+    "test": "jest"
+  },
+  "jest": {
+    "config": "jest.config.cjs"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "13.7.0",
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.7.3",
+    "@cms/cms-analytics": "*",
+    "@cms/cms-blog": "*",
+    "@cms/cms-core": "*",
+    "@cms/cms-mbc-sync": "*",
+    "@cms/cms-seo": "*",
+    "@cms/cms-ui": "*",
+    "@cms/cms-users": "*",
+    "@google-cloud/recaptcha-enterprise": "^6.3.0",
+    "@tailwindcss/vite": "^4.1.12",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
+    "astro": "6.4.6",
+    "astro-icon": "^1.1.5",
+    "astro-pagefind": "^2.0.0",
+    "astro-seo": "^0.8.4",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.13",
+    "fast-xml-parser": "^5.2.5",
+    "form-data": "^4.0.4",
+    "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/tabler": "^1.2.22",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/jest": "^30.0.0",
+    "autoprefixer": "^10.4.14",
+    "dotenv": "^16.6.1",
+    "jest": "^30.1.3",
+    "postcss-cli": "^10.1.0",
+    "prettier": "3.6.2",
+    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-tailwindcss": "0.6.14",
+    "sharp": "^0.34.4",
+    "tailwindcss": "^3.4.0",
+    "ts-jest": "^29.4.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
