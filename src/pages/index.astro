@@ -9,7 +9,7 @@ const CHANNEL_ID = 'UCJ6fa6JxMw3hA15TVvC2EWg';
 const YOUTUBE_URL = 'https://www.youtube.com/@Easy_Yield';
 
 const videos = await getChannelVideos(env?.DB, CHANNEL_ID);
-const PER_PAGE = 9;
+const PER_PAGE = 6;
 const totalPages = Math.max(1, Math.ceil(videos.length / PER_PAGE));
 const reqPage = parseInt(new URL(Astro.request.url).searchParams.get('page') || '1', 10) || 1;
 const cur = Math.min(Math.max(1, reqPage), totalPages);
@@ -43,10 +43,10 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-re
 <div>
   <Header />
 
-  <main id="main" class="pt-28 pb-20 min-h-[60vh]">
+  <main id="main" class="pt-28 pb-20 min-h-[60vh]" style="background-color:#101827">
     <div class="container mx-auto px-6">
       {videos.length === 0 ? (
-        <p class="text-center text-gray-500 py-16">
+        <p class="text-center text-gray-300 py-16">
           New videos coming soon — <a class="underline font-medium" href={YOUTUBE_URL} target="_blank" rel="noopener">subscribe on YouTube</a>.
         </p>
       ) : (
@@ -73,11 +73,11 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-re
 
           {totalPages > 1 && (
             <nav class="flex flex-wrap justify-center items-center gap-2 mt-12" aria-label="Video pages">
-              {cur > 1 && <a href={`/?page=${cur - 1}`} class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 font-medium">Prev</a>}
+              {cur > 1 && <a rel="prev" href={`/?page=${cur - 1}`} class="px-4 py-2 rounded-lg border border-white/25 text-white hover:bg-white/10 font-medium">Prev</a>}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                <a href={`/?page=${n}`} class={`px-4 py-2 rounded-lg font-medium ${n === cur ? 'bg-black text-white' : 'border border-gray-300 hover:bg-gray-100'}`}>{n}</a>
+                <a href={`/?page=${n}`} aria-current={n === cur ? 'page' : undefined} class={`px-4 py-2 rounded-lg font-medium ${n === cur ? 'bg-white text-black' : 'border border-white/25 text-white hover:bg-white/10'}`}>{n}</a>
               ))}
-              {cur < totalPages && <a href={`/?page=${cur + 1}`} class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 font-medium">Next</a>}
+              {cur < totalPages && <a rel="next" href={`/?page=${cur + 1}`} class="px-4 py-2 rounded-lg border border-white/25 text-white hover:bg-white/10 font-medium">Next</a>}
             </nav>
           )}
         </Fragment>
