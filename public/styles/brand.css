@@ -28,24 +28,24 @@
   /* cms-blog presentation tokens — themed for Easy Yield (green/teal accent) */
   --cms-blog-accent:        #0f766e;
   --cms-blog-accent-fg:     #fff;
-  --cms-blog-text:          #2b3b38;
-  --cms-blog-heading:       #115e59;
-  --cms-blog-meta:          #5b736e;
-  --cms-blog-link:          #0f766e;
-  --cms-blog-link-hover:    #115e59;
-  --cms-blog-card-bg:       #fff;
+  --cms-blog-text:          #cbd5e1;
+  --cms-blog-heading:       #f1f5f9;
+  --cms-blog-meta:          #94a3b8;
+  --cms-blog-link:          #2dd4bf;
+  --cms-blog-link-hover:    #5eead4;
+  --cms-blog-card-bg:       #1E293B;
   --cms-blog-card-radius:   12px;
-  --cms-blog-card-shadow:   0 8px 24px rgba(15,118,110,.16);
+  --cms-blog-card-shadow:   0 8px 24px rgba(0,0,0,.35);
   --cms-blog-card-height:   320px;
   --cms-blog-card-fallback: linear-gradient(135deg,#115e59 0%,#0f766e 60%,#10b981 100%);
   --cms-blog-grid-cols:     3;
   --cms-blog-grid-gap:      0.75rem;
-  --cms-blog-tag-bg:        #d1fae5;
-  --cms-blog-tag-color:     #115e59;
-  --cms-blog-tag-bg-hover:  #a7f3d0;
+  --cms-blog-tag-bg:        #134e4a;
+  --cms-blog-tag-color:     #5eead4;
+  --cms-blog-tag-bg-hover:  #115e59;
   --cms-blog-quote-border:  #10b981;
-  --cms-blog-quote-bg:      #ecfdf5;
-  --cms-blog-quote-color:   #115e59;
+  --cms-blog-quote-bg:      #0b1220;
+  --cms-blog-quote-color:   #cbd5e1;
 }
 
 .brand-gradient { background: linear-gradient(90deg, var(--brand-600), var(--brand-500)); }
@@ -76,7 +76,7 @@
 
 /* Luckiest Guy — comic display for the header wordmark + nav (matches the
    YouTube thumbnails). The tagline opts back out to Fredoka inline. */
-.site-header, .site-header * { font-family: 'Luckiest Guy', 'Fredoka', system-ui, sans-serif; }
+.site-header, .site-header * { font-family: 'Luckiest Guy', 'Fredoka', system-ui, sans-serif; letter-spacing: 0.02em; }
 /* Fredoka — friendly rounded display for headings + footer brand (Easy Yield). */
 .footer-brand,
 h1, h2, h3, h4, h5, h6 { font-family: 'Fredoka', 'Inter', system-ui, -apple-system, sans-serif; }

@@ -8,22 +8,22 @@ import Header from '../components/Header.astro';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings - Easy Yield</title>
   <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
-  <link rel="stylesheet" href="/tailwind.css?v=20260628a">
+  <link rel="stylesheet" href="/tailwind.css?v=20260628c">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen bg-[#101827]">
   <Header />
 
   <main class="max-w-[1400px] mx-auto px-6 py-8">
     <div id="settings-loading" class="text-center py-8">
       <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-600 mx-auto"></div>
-      <p class="mt-3 text-gray-600">Loading settings...</p>
+      <p class="mt-3 text-slate-300">Loading settings...</p>
     </div>
 
     <div id="settings-login-redirect" class="hidden text-center py-16">
       <i class="fa-solid fa-user-lock text-5xl text-gray-400 mb-4"></i>
-      <h2 class="text-2xl font-bold text-gray-900">Sign In Required</h2>
-      <p class="text-gray-600 mt-2 mb-6">Please sign in to manage your account settings.</p>
+      <h2 class="text-2xl font-bold text-white">Sign In Required</h2>
+      <p class="text-slate-300 mt-2 mb-6">Please sign in to manage your account settings.</p>
       <a href="/login?redirect=/settings" class="inline-flex items-center px-6 py-3 rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700">
         <i class="fa-solid fa-sign-in-alt mr-2"></i>Sign In
       </a>
@@ -31,8 +31,8 @@ import Header from '../components/Header.astro';
 
     <div id="settings-content" class="hidden">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
-        <p class="text-gray-600 mt-2">Manage account preferences and email integrations.</p>
+        <h1 class="text-3xl font-bold text-white">Settings</h1>
+        <p class="text-slate-300 mt-2">Manage account preferences and email integrations.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

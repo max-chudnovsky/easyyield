@@ -17,7 +17,7 @@ interface Props {
   bodyClass?: string;
   mainClass?: string;
 }
-const { bodyClass = 'bg-[#faf7f4]', mainClass = 'min-h-screen pt-24 pb-16' } = Astro.props as Props;
+const { bodyClass = '', mainClass = 'min-h-screen pt-24 pb-16' } = Astro.props as Props;
 ---
 <head>
   <!-- Easy Yield base chrome assets so any module page using this layout
@@ -26,13 +26,13 @@ const { bodyClass = 'bg-[#faf7f4]', mainClass = 'min-h-screen pt-24 pb-16' } = A
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="/images/easyyield-logo.png" />
-  <link rel="stylesheet" href="/tailwind.css?v=20260628a" />
-  <link rel="stylesheet" href="/styles/brand.css?v=20260628b" />
+  <link rel="stylesheet" href="/tailwind.css?v=20260628c" />
+  <link rel="stylesheet" href="/styles/brand.css?v=20260628c" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" is:inline></script>
   <slot name="head" />
 </head>
 
-<body class={bodyClass}>
+<body class={`bg-[#101827] text-slate-200 ${bodyClass}`}>
   <Header />
 
   <main class={mainClass}>
