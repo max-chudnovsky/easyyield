@@ -76,7 +76,7 @@
 
 /* Luckiest Guy — comic display for the header wordmark + nav (matches the
    YouTube thumbnails). The tagline opts back out to Fredoka inline. */
-.site-header, .site-header * { font-family: 'Luckiest Guy', 'Fredoka', system-ui, sans-serif; letter-spacing: 0.02em; }
+.site-header, .site-header * { font-family: 'Luckiest Guy', 'Fredoka', system-ui, sans-serif; letter-spacing: 0.04em; }
 /* Fredoka — friendly rounded display for headings + footer brand (Easy Yield). */
 .footer-brand,
 h1, h2, h3, h4, h5, h6 { font-family: 'Fredoka', 'Inter', system-ui, -apple-system, sans-serif; }
