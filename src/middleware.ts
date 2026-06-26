@@ -43,7 +43,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // (/_astro, /images, css/js with ?v=) keep their own long cache untouched.
   try {
     const ct = response.headers.get('content-type') || '';
-    if (ct.includes('text/html')) {
+    if (ct.includes('text/html') && !response.headers.has('Cache-Control')) {
       response.headers.set('Cache-Control', 'no-cache, must-revalidate');
     }
   } catch {}
