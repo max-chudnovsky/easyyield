@@ -142,7 +142,7 @@ function subscriberWelcomeHtml(firstName?: string): string {
           </div>
 
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg"
+            <a href="https://www.youtube.com/@Easy_Yield"
                style="background: linear-gradient(135deg, #0f766e 0%, #10b981 100%);
                       color: white;
                       padding: 15px 30px;
@@ -159,7 +159,7 @@ function subscriberWelcomeHtml(firstName?: string): string {
         <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #666; font-size: 14px;">
           <p>Follow Easy Yield on YouTube for new comics and videos!</p>
           <div style="margin: 15px 0;">
-            <a href="https://www.youtube.com/channel/UCJ6fa6JxMw3hA15TVvC2EWg" style="color: #0f766e; text-decoration: none; margin: 0 10px;">YouTube</a>
+            <a href="https://www.youtube.com/@Easy_Yield" style="color: #0f766e; text-decoration: none; margin: 0 10px;">YouTube</a>
           </div>
           <p>© ${new Date().getFullYear()} Easy Yield. All rights reserved.</p>
           <p><a href="https://easyyield.ca/api/unsubscribe?email={email}" style="color: #999; font-size: 12px;">Unsubscribe</a></p>

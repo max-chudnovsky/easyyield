@@ -6,10 +6,10 @@ import { getChannelVideos } from '../lib/youtube-videos'
 
 const env = (Astro.locals as any)?.env;
 const CHANNEL_ID = 'UCJ6fa6JxMw3hA15TVvC2EWg';
-const YOUTUBE_URL = `https://www.youtube.com/channel/${CHANNEL_ID}`;
+const YOUTUBE_URL = 'https://www.youtube.com/@Easy_Yield';
 
 const videos = await getChannelVideos(env?.DB, CHANNEL_ID);
-const PER_PAGE = 6;
+const PER_PAGE = 9;
 const totalPages = Math.max(1, Math.ceil(videos.length / PER_PAGE));
 const reqPage = parseInt(new URL(Astro.request.url).searchParams.get('page') || '1', 10) || 1;
 const cur = Math.min(Math.max(1, reqPage), totalPages);
@@ -45,16 +45,13 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-re
 
   <main id="main" class="pt-28 pb-20 min-h-[60vh]">
     <div class="container mx-auto px-6 max-w-6xl">
-      <h1 class="text-3xl md:text-4xl font-bold mb-2 text-center">Easy Yield Videos</h1>
-      <p class="text-center text-gray-500 mb-10">Canadian personal finance, made easy &amp; fun — with Mike.</p>
-
       {videos.length === 0 ? (
         <p class="text-center text-gray-500 py-16">
           New videos coming soon — <a class="underline font-medium" href={YOUTUBE_URL} target="_blank" rel="noopener">subscribe on YouTube</a>.
         </p>
       ) : (
         <Fragment>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {pageVideos.map((v) => (
               <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener"
                  class="group block rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
