@@ -26,8 +26,8 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-re
   <title>Easy Yield — Canadian Personal Finance, Made Easy &amp; Fun</title>
   <meta name="description" content="Easy Yield is a comics &amp; vlog series that makes Canadian personal finance easy and fun. Follow Mike as he tackles TFSAs, RRSPs, FHSAs, saving, investing, budgeting and more — one video at a time." />
   <link rel="canonical" href="https://easyyield.ca/" />
-  <link rel="preload" href="/tailwind.css?v=20260628c" as="style">
-  <link rel="stylesheet" href="/tailwind.css?v=20260628c">
+  <link rel="preload" href="/tailwind.css?v=20260628e" as="style">
+  <link rel="stylesheet" href="/tailwind.css?v=20260628e">
   <style>
     html,body{font-family:'Inter',system-ui,-apple-system}
   </style>
@@ -64,7 +64,7 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-re
                   </span>
                 </div>
                 <div class="p-5">
-                  <h2 class="text-lg md:text-xl font-semibold leading-snug text-white/70">{v.title}</h2>
+                  <h2 class="text-lg md:text-xl font-semibold leading-snug text-slate-50">{v.title}</h2>
                   <p class="text-sm text-slate-400 mt-2">{v.published ? new Date(v.published).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</p>
                 </div>
               </a>
@@ -73,11 +73,11 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=600, stale-while-re
 
           {totalPages > 1 && (
             <nav class="flex flex-wrap justify-center items-center gap-2 mt-12" aria-label="Video pages">
-              {cur > 1 && <a rel="prev" href={`/?page=${cur - 1}`} class="px-4 py-2 rounded-lg border border-white/25 text-white/70 hover:bg-white/10 font-medium">Prev</a>}
+              {cur > 1 && <a rel="prev" href={`/?page=${cur - 1}`} class="px-4 py-2 rounded-lg border border-white/25 text-white hover:bg-white/10 font-medium">Prev</a>}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                <a href={`/?page=${n}`} aria-current={n === cur ? 'page' : undefined} class={`px-4 py-2 rounded-lg font-medium ${n === cur ? 'bg-white text-black' : 'border border-white/25 text-white/70 hover:bg-white/10'}`}>{n}</a>
+                <a href={`/?page=${n}`} aria-current={n === cur ? 'page' : undefined} class={`px-4 py-2 rounded-lg font-medium ${n === cur ? 'bg-white text-black' : 'border border-white/25 text-white hover:bg-white/10'}`}>{n}</a>
               ))}
-              {cur < totalPages && <a rel="next" href={`/?page=${cur + 1}`} class="px-4 py-2 rounded-lg border border-white/25 text-white/70 hover:bg-white/10 font-medium">Next</a>}
+              {cur < totalPages && <a rel="next" href={`/?page=${cur + 1}`} class="px-4 py-2 rounded-lg border border-white/25 text-white hover:bg-white/10 font-medium">Next</a>}
             </nav>
           )}
         </Fragment>
