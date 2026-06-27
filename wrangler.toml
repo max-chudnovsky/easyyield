@@ -67,7 +67,8 @@ CMS_BLOG_TAG_STOP_WORDS = "easy,yield,mike,finance,canada"
 # cms-ui AdminShell: public site nav rendered in the admin header + footer.
 CMS_SITE_NAV = '[{"label":"Home","href":"/"},{"label":"Blog","href":"/blog"},{"label":"About","href":"/about"},{"label":"Contact","href":"/contact"}]'
 CMS_ADMIN_HEADER_OFFSET = "96px"
-CMS_ADMIN_SIDE_BG = "var(--brand-700)"
+CMS_ADMIN_HIDE_NAV = "/admin/products"
+CMS_ADMIN_SIDE_BG = "#101827"
 CMS_ADMIN_SIDE_TEXT = "#ffffff"
 # cms-users runtime config (read at request time by injected auth routes).
 CMS_USERS_SESSION_COOKIE = "easyyield_session"

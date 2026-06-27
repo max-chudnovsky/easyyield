@@ -1,5 +1,5 @@
 /* Centralized brand tokens and small utilities — Easy Yield (Canadian finance: confident green/teal + warm accent) */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;500;600;700&display=swap');
 :root{
   --brand-700: #115e59;  /* deep teal */
   --brand-600: #0f766e;  /* teal (primary) */
@@ -74,9 +74,9 @@
 .site-header.translucent { background-color: rgba(16,24,39,0.5); backdrop-filter: blur(6px); border-color: rgba(0,0,0,0.06); }
 .site-header.scrolled { background-color: #101827; backdrop-filter: none; border-color: rgba(0,0,0,0.08); }
 
-/* Luckiest Guy — comic display for the header wordmark + nav (matches the
+/* Comic Neue — comic display for the header wordmark + nav (matches the
    YouTube thumbnails). The tagline opts back out to Fredoka inline. */
-.site-header, .site-header * { font-family: 'Luckiest Guy', 'Fredoka', system-ui, sans-serif; letter-spacing: 0.04em; }
+.site-header, .site-header * { font-family: 'Comic Neue', 'Fredoka', system-ui, sans-serif; letter-spacing: 0.04em; }
 /* Fredoka — friendly rounded display for headings + footer brand (Easy Yield). */
 .footer-brand,
 h1, h2, h3, h4, h5, h6 { font-family: 'Fredoka', 'Inter', system-ui, -apple-system, sans-serif; }

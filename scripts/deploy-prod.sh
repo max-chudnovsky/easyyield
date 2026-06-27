@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Velesco Production Deploy Script
+# Easy Yield Production Deploy Script
 # Builds and deploys the application to Cloudflare Workers
 
 set -e  # Exit on any error
 
-echo "🚀 Starting Velesco production deployment..."
+echo "🚀 Starting Easy Yield production deployment..."
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -31,9 +31,16 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Load .env if present
+if [ -f ".env" ]; then
+    set -a
+    source .env
+    set +a
+fi
+
 # Check if we're in the right directory
 if [ ! -f "package.json" ] || [ ! -f "wrangler.toml" ]; then
-    print_error "This script must be run from the Velesco project root directory"
+    print_error "This script must be run from the Easy Yield project root directory"
     exit 1
 fi
 
@@ -76,13 +83,9 @@ npx wrangler deploy
 if [ $? -eq 0 ]; then
     print_success "🎉 Deployment successful!"
     echo ""
-    echo "Your Velesco platform is now live at:"
-    echo "https://velesco.max-17f.workers.dev"
+    echo "Easy Yield is now live at:"
+    echo "https://easyyield.ca"
     echo ""
-    echo "To test the deployment:"
-    echo "1. Visit the URL above"
-    echo "2. Try the authentication system"
-    echo "3. Check browser console for any errors"
 else
     print_error "Deployment failed"
     exit 1

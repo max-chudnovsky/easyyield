@@ -47,30 +47,22 @@ export async function POST(context: any) {
       );
     }
 
-    // Verify reCAPTCHA Enterprise token
-    const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+    // Verify reCAPTCHA v3 token
+    const recaptchaSecretKey = env?.RECAPTCHA_SECRET_KEY || process.env.RECAPTCHA_SECRET_KEY;
     if (!recaptchaSecretKey) {
       throw new Error('reCAPTCHA secret key not configured');
     }
 
-    const recaptchaVerifyResponse = await fetch(`https://recaptchaenterprise.googleapis.com/v1/projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}/assessments?key=${recaptchaSecretKey}`, {
+    const recaptchaVerifyResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        event: {
-          token: recaptchaToken,
-          siteKey: '6Lef-9ArAAAAAL5o9nHnUdS45GAVSdG2jR-tFHzP',
-          expectedAction: 'CONTACT_FORM'
-        }
-      })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${encodeURIComponent(recaptchaSecretKey)}&response=${encodeURIComponent(recaptchaToken)}`
     });
 
     const recaptchaResult = await recaptchaVerifyResponse.json();
 
     // Check if the token is valid and score is acceptable
-    if (!recaptchaResult.tokenProperties?.valid || recaptchaResult.riskAnalysis?.score < 0.5) {
+    if (!recaptchaResult.success || recaptchaResult.score < 0.5) {
       return new Response(
         JSON.stringify({
           success: false,
