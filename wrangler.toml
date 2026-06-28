@@ -15,18 +15,21 @@ assets = { directory = "./dist", binding = "ASSETS" }
 observability = { enabled = true }
 upload_source_maps = true
 
-# NOTE: binding database_id, kv id, and account_id below are still erikred's
-# resource IDs — the lead will swap them for the new easyyield resources.
+# Resources are easyyield's own (verified 2026-06-28 against `wrangler d1 list` /
+# `kv namespace list`): the prior "still erikred's" note was stale — the IDs were
+# already swapped. account_id below is the shared CF account (all sites live here).
 [[d1_databases]]
 binding = "DB"
 database_name = "easyyield-db"
-database_id = "8d61cd96-67cf-4a2b-8028-73205f6f37bf"
+database_id = "8d61cd96-67cf-4a2b-8028-73205f6f37bf"   # = easyyield-db (erikred-db is aea3f4c6…)
 
 # KV bound as CACHE — the canonical name resolved by every shared module
 # (env?.CACHE || env?.KV) and by all of the site's own code (env.CACHE).
+# (A 2nd namespace `easyyield-session` exists in CF but is UNUSED/unbound — auth
+#  sessions are cookie-based + cached in CACHE; same on erikred. Safe to delete.)
 [[kv_namespaces]]
 binding = "CACHE"
-id = "4dd1b1adf8de4a75b9ea8b8460bbc847"
+id = "4dd1b1adf8de4a75b9ea8b8460bbc847"                # = easyyield-cache
 
 [[r2_buckets]]
 binding = "IMAGES"
