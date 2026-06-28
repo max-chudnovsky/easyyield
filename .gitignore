@@ -9,5 +9,9 @@ src_theme/
 config/
 archive/
 
-# images live centrally in assets/easyyield/images (junctioned into public/images)
+# all images live centrally in d:\Code\assets\easyyield (out of the repo)
+#  - served images: assets/easyyield/images  (junctioned into public/images)
+#  - source/brand reference images: assets/easyyield/source
 public/images/
+/assets/
+src/assets/
