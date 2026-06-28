@@ -38,7 +38,7 @@ function verificationHtml(verificationUrl: string): string {
       </head>
       <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://easyyield.ca/images/easyyield-logo.png" alt="Easy Yield" style="height: 50px;">
+          <img src="https://easyyield.ca/api/images/site/easyyield-logo.png" alt="Easy Yield" style="height: 50px;">
         </div>
 
         <div style="background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 20px 0;">
@@ -113,7 +113,7 @@ function subscriberWelcomeHtml(firstName?: string): string {
       </head>
       <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://easyyield.ca/images/easyyield-logo.png" alt="Easy Yield" style="height: 50px;">
+          <img src="https://easyyield.ca/api/images/site/easyyield-logo.png" alt="Easy Yield" style="height: 50px;">
         </div>
 
         <div style="background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%); color: white; padding: 30px; border-radius: 10px; margin: 20px 0; text-align: center;">
@@ -232,7 +232,7 @@ export async function sendContactAck(
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #ea580c; text-align: center;">Message Received — Easy Yield</h1>
         <div style="text-align: center; margin: 30px 0;">
-          <img src="https://easyyield.ca/images/easyyield-logo.png" alt="Easy Yield" style="max-width: 200px;">
+          <img src="https://easyyield.ca/api/images/site/easyyield-logo.png" alt="Easy Yield" style="max-width: 200px;">
         </div>
         <p>Dear ${name},</p>
         <p>Thank you for reaching out! Your message has been received and Erik will get back to you within 2–3 business days.</p>

@@ -4,7 +4,7 @@ export async function GET() {
     return new Response(null, {
       status: 302,
       headers: {
-        'Location': '/images/easyyield-logo.png',
+        'Location': '/api/images/site/easyyield-logo.png',
         'Content-Type': 'image/png'
       }
     });

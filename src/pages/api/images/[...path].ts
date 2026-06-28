@@ -20,9 +20,9 @@ export const GET: APIRoute = async (context) => {
 
     console.log('Image API request path:', path);
 
-    if (!path.startsWith('blog/') && !path.startsWith('products/') && !path.startsWith('slider/')) {
+    if (!path.startsWith('blog/') && !path.startsWith('products/') && !path.startsWith('slider/') && !path.startsWith('site/')) {
       console.log('Invalid path rejected:', path);
-      return new Response('Invalid path - only blog/, products/, and slider/ are supported', {
+      return new Response('Invalid path - only blog/, products/, slider/, and site/ are supported', {
         status: 400,
         headers: {
           'X-Debug-Path': path,

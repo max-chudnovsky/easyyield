@@ -9,9 +9,7 @@ src_theme/
 config/
 archive/
 
-# all images live centrally in d:\Code\assets\easyyield (out of the repo)
-#  - served images: assets/easyyield/images  (junctioned into public/images)
-#  - source/brand reference images: assets/easyyield/source
-public/images/
+# all images are served from Cloudflare R2 (bucket: easyyield, prefix site/ for chrome)
+# source-of-truth originals live out-of-repo in d:\Code\assets\easyyield (images + source)
 /assets/
 src/assets/
