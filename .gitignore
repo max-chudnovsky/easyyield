@@ -8,3 +8,6 @@ package.json.bak
 src_theme/
 config/
 archive/
+
+# images live centrally in assets/easyyield/images (junctioned into public/images)
+public/images/

@@ -58,7 +58,7 @@ fi
 
 # Install/update dependencies
 print_status "Installing dependencies..."
-sudo npm install 2>/dev/null && print_success "Dependencies installed successfully"
+npm install 2>/dev/null && print_success "Dependencies installed successfully"   # was `sudo npm install` — not valid on native Windows
 
 # Build CSS
 print_status "Building Tailwind CSS..."

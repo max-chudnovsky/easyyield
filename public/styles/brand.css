@@ -7,6 +7,7 @@
   --brand-400: #34d399;  /* light green */
   --brand-300: #86efac;  /* mint highlight */
   --brand-50:  #ecfdf5;  /* pale mint */
+  --salad-green: #358d1b; /* salad green — sampled from the YouTube thumbnail; active-input accent + header icon hover */
 
   /* warm accent (for CTAs / highlights) */
   --accent-500: #f59e0b; /* amber */
@@ -80,3 +81,18 @@
 /* Fredoka — friendly rounded display for headings + footer brand (Easy Yield). */
 .footer-brand,
 h1, h2, h3, h4, h5, h6 { font-family: 'Fredoka', 'Inter', system-ui, -apple-system, sans-serif; }
+
+/* Salad-green accent around the ACTIVE (focused) text-entry field — site-wide. */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input:not([type]):focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--salad-green);
+  box-shadow: 0 0 0 2px var(--salad-green);
+}
