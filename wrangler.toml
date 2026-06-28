@@ -25,8 +25,8 @@ database_id = "8d61cd96-67cf-4a2b-8028-73205f6f37bf"   # = easyyield-db (erikred
 
 # KV bound as CACHE — the canonical name resolved by every shared module
 # (env?.CACHE || env?.KV) and by all of the site's own code (env.CACHE).
-# (A 2nd namespace `easyyield-session` exists in CF but is UNUSED/unbound — auth
-#  sessions are cookie-based + cached in CACHE; same on erikred. Safe to delete.)
+# (Single KV by design: auth sessions are cookie-based + cached here in CACHE.
+#  The old unused `easyyield-session` namespace was deleted 2026-06-28.)
 [[kv_namespaces]]
 binding = "CACHE"
 id = "4dd1b1adf8de4a75b9ea8b8460bbc847"                # = easyyield-cache
