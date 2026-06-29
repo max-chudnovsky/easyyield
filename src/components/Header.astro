@@ -41,18 +41,40 @@ import LoginPopup from '@cms/cms-users/components/LoginPopup.astro';
         </nav>
       </div>
 
-      <!-- Social Media Icons -->
-      <div class="hidden md:flex items-center space-x-3">
-        <a href="https://www.youtube.com/@Easy_Yield" target="_blank" rel="noopener noreferrer" class="text-[#E1A940] hover:text-[var(--salad-green,#358d1b)] transition-colors duration-300" aria-label="YouTube">
-          <i class="fab fa-youtube text-lg"></i>
+      <!-- Social metric cards: STATIC shells (cannot break SSR); numbers filled
+           client-side from /api/social-metrics. Stay "—" if that endpoint fails. -->
+      <div class="hidden lg:flex items-center gap-2">
+        <a href="https://www.youtube.com/@Easy_Yield" target="_blank" rel="noopener noreferrer" class="flex flex-col justify-center rounded-lg border border-[#E1A940]/60 hover:border-[#E1A940] hover:bg-[#E1A940]/5 px-3 py-1 leading-tight transition-colors duration-300" aria-label="YouTube stats">
+          <span class="flex items-center gap-1.5 text-[0.72rem] font-bold text-[#E1A940]"><i class="fab fa-youtube text-sm" style="color:#FF0000"></i>YouTube</span>
+          <span class="text-[0.7rem] text-slate-300 whitespace-nowrap tabular-nums"><b class="text-white" id="sm-youtube-count">—</b> subs · <b class="text-white" id="sm-youtube-videos">—</b> vids · <b class="text-white" id="sm-youtube-views">—</b> views</span>
         </a>
-        <a href="https://www.facebook.com/easyyield" target="_blank" rel="noopener noreferrer" class="text-[#E1A940] hover:text-[var(--salad-green,#358d1b)] transition-colors duration-300" aria-label="Facebook">
-          <i class="fab fa-facebook-f text-lg"></i>
+        <a href="https://www.facebook.com/easyyield" target="_blank" rel="noopener noreferrer" class="flex flex-col justify-center rounded-lg border border-[#E1A940]/60 hover:border-[#E1A940] hover:bg-[#E1A940]/5 px-3 py-1 leading-tight transition-colors duration-300" aria-label="Facebook stats">
+          <span class="flex items-center gap-1.5 text-[0.72rem] font-bold text-[#E1A940]"><i class="fab fa-facebook text-sm" style="color:#1877F2"></i>Facebook</span>
+          <span class="text-[0.7rem] text-slate-300 whitespace-nowrap tabular-nums"><b class="text-white" id="sm-facebook-count">—</b> fans · <b class="text-white" id="sm-facebook-videos">—</b> vids · <b class="text-white" id="sm-facebook-views">—</b> views</span>
         </a>
-        <a href="https://www.instagram.com/easy_yield" target="_blank" rel="noopener noreferrer" class="text-[#E1A940] hover:text-[var(--salad-green,#358d1b)] transition-colors duration-300" aria-label="Instagram">
-          <i class="fab fa-instagram text-lg"></i>
+        <a href="https://www.instagram.com/easy_yield" target="_blank" rel="noopener noreferrer" class="flex flex-col justify-center rounded-lg border border-[#E1A940]/60 hover:border-[#E1A940] hover:bg-[#E1A940]/5 px-3 py-1 leading-tight transition-colors duration-300" aria-label="Instagram stats">
+          <span class="flex items-center gap-1.5 text-[0.72rem] font-bold text-[#E1A940]"><i class="fab fa-instagram text-sm" style="color:#E4405F"></i>Instagram</span>
+          <span class="text-[0.7rem] text-slate-300 whitespace-nowrap tabular-nums"><b class="text-white" id="sm-instagram-count">—</b> flwrs · <b class="text-white" id="sm-instagram-videos">—</b> vids · <b class="text-white" id="sm-instagram-views">—</b> views</span>
         </a>
       </div>
+      <script is:inline>
+        (async () => {
+          try {
+            const r = await fetch('/api/social-metrics');
+            if (!r.ok) return;
+            const d = await r.json();
+            const fmt = (n) => (n === null || n === undefined) ? '—'
+              : (n < 1000 ? String(n) : n < 1e6 ? (+(n / 1000).toFixed(1)) + 'K' : (+(n / 1e6).toFixed(1)) + 'M');
+            ['youtube', 'facebook', 'instagram'].forEach((p) => {
+              const m = d[p] || {};
+              ['count', 'videos', 'views'].forEach((f) => {
+                const el = document.getElementById('sm-' + p + '-' + f);
+                if (el) el.textContent = fmt(m[f]);
+              });
+            });
+          } catch (e) { /* leave the —'s */ }
+        })();
+      </script>
 
       <div class="flex items-center space-x-3">
         <!-- Search Container -->

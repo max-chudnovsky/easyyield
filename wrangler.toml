@@ -31,6 +31,15 @@ database_id = "8d61cd96-67cf-4a2b-8028-73205f6f37bf"   # = easyyield-db (erikred
 binding = "CACHE"
 id = "4dd1b1adf8de4a75b9ea8b8460bbc847"                # = easyyield-cache
 
+# Astro Sessions API is auto-enabled by @astrojs/cloudflare and requires a SESSION
+# KV binding. The adapter's auto-provisioned namespace was deleted (the "unused
+# easyyield-session" one), which blocked deploys. Sessions are effectively unused
+# here (auth is cookie + CACHE), so point SESSION at the existing cache namespace
+# to satisfy the binding without provisioning a new namespace.
+[[kv_namespaces]]
+binding = "SESSION"
+id = "4dd1b1adf8de4a75b9ea8b8460bbc847"                # reuse easyyield-cache
+
 [[r2_buckets]]
 binding = "IMAGES"
 bucket_name = "easyyield"
