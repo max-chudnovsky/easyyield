@@ -29,9 +29,9 @@
   /* cms-blog presentation tokens — themed for Easy Yield (green/teal accent) */
   --cms-blog-accent:        #0f766e;
   --cms-blog-accent-fg:     #fff;
-  --cms-blog-text:          #cbd5e1;
-  --cms-blog-heading:       #f1f5f9;
-  --cms-blog-meta:          #94a3b8;
+  --cms-blog-text:          #f1f5f9;  /* bright near-white body (not pure #fff) */
+  --cms-blog-heading:       #facc15;  /* yellow titles/headings — matches amber accent */
+  --cms-blog-meta:          #fcd34d;  /* warm yellow meta */
   --cms-blog-link:          #2dd4bf;
   --cms-blog-link-hover:    #5eead4;
   --cms-blog-card-bg:       #1E293B;
@@ -46,8 +46,16 @@
   --cms-blog-tag-bg-hover:  #115e59;
   --cms-blog-quote-border:  #10b981;
   --cms-blog-quote-bg:      #0b1220;
-  --cms-blog-quote-color:   #cbd5e1;
+  --cms-blog-quote-color:   #f1f5f9;
 }
+
+/* Easy Yield blog colour tuning (overrides cms-blog defaults, easyyield-only):
+   yellow titles + meta everywhere; keep reading text (body, lead, bold) the
+   brighter near-white so the page isn't over-yellowed. */
+.cms-blog-card__title { color: var(--cms-blog-heading); }   /* index card titles -> yellow */
+.cms-blog-card__meta  { color: var(--cms-blog-meta); }      /* index card meta  -> yellow */
+.cms-blog-content strong { color: var(--cms-blog-text); }   /* bold body stays bright white, not yellow */
+.cms-blog-detail__excerpt { color: var(--cms-blog-text); }  /* lead paragraph bright white, not yellow */
 
 .brand-gradient { background: linear-gradient(90deg, var(--brand-600), var(--brand-500)); }
 .gradient-bg { background: linear-gradient(135deg, var(--brand-700) 0%, var(--brand-600) 55%, var(--brand-500) 100%); }
