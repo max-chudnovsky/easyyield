@@ -51,7 +51,18 @@
 
 /* Easy Yield blog colour tuning (overrides cms-blog defaults, easyyield-only):
    yellow titles + meta everywhere; keep reading text (body, lead, bold) the
-   brighter near-white so the page isn't over-yellowed. */
+   brighter near-white so the page isn't over-yellowed.
+   NOTE: the cms-blog module inlines its own light-theme `:root` defaults AFTER
+   this file on blog pages, so a plain :root override loses the cascade. Use
+   :root:root (higher specificity) to win regardless of source order. */
+:root:root {
+  --cms-blog-text:       #f1f5f9;  /* bright near-white body (not pure #fff) */
+  --cms-blog-heading:    #facc15;  /* yellow titles/headings */
+  --cms-blog-meta:       #fcd34d;  /* warm yellow meta */
+  --cms-blog-link:       #2dd4bf;  /* teal links (not default blue) */
+  --cms-blog-link-hover: #5eead4;
+  --cms-blog-quote-color:#f1f5f9;
+}
 .cms-blog-card__title { color: var(--cms-blog-heading); }   /* index card titles -> yellow */
 .cms-blog-card__meta  { color: var(--cms-blog-meta); }      /* index card meta  -> yellow */
 .cms-blog-content strong { color: var(--cms-blog-text); }   /* bold body stays bright white, not yellow */
