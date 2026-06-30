@@ -30,8 +30,8 @@
   --cms-blog-accent:        #0f766e;
   --cms-blog-accent-fg:     #fff;
   --cms-blog-text:          #f1f5f9;  /* bright near-white body (not pure #fff) */
-  --cms-blog-heading:       #facc15;  /* yellow titles/headings — matches amber accent */
-  --cms-blog-meta:          #fcd34d;  /* warm yellow meta */
+  --cms-blog-heading:       #E1A940;  /* yellow titles/headings — matches amber accent */
+  --cms-blog-meta:          #E1A940;  /* warm yellow meta */
   --cms-blog-link:          #2dd4bf;
   --cms-blog-link-hover:    #5eead4;
   --cms-blog-card-bg:       #1E293B;
@@ -57,8 +57,8 @@
    :root:root (higher specificity) to win regardless of source order. */
 :root:root {
   --cms-blog-text:       #f1f5f9;  /* bright near-white body (not pure #fff) */
-  --cms-blog-heading:    #facc15;  /* yellow titles/headings */
-  --cms-blog-meta:       #fcd34d;  /* warm yellow meta */
+  --cms-blog-heading:    #E1A940;  /* yellow titles/headings */
+  --cms-blog-meta:       #E1A940;  /* warm yellow meta */
   --cms-blog-link:       #2dd4bf;  /* teal links (not default blue) */
   --cms-blog-link-hover: #5eead4;
   --cms-blog-quote-color:#f1f5f9;
